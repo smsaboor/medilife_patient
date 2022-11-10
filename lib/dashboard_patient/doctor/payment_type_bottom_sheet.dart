@@ -10,13 +10,13 @@ class PaymentTypeSheet extends StatefulWidget {
 class _PaymentTypeSheetState extends State<PaymentTypeSheet> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
@@ -30,15 +30,15 @@ class _PaymentTypeSheetState extends State<PaymentTypeSheet> {
                       color: Colors.red),
             ),
           ),),
-          Divider(thickness: 1),
+          const Divider(thickness: 1),
           ListTile(
-              leading: Icon(Icons.account_balance_wallet,color: Colors.deepPurple,),
-              title: Text('Full Payment',
+              leading: const Icon(Icons.account_balance_wallet,color: Colors.deepPurple,),
+              title: const Text('Full Payment',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
               onTap: () {}),
-          Divider(thickness: .1),
-          ListTile(leading: Icon(Icons.account_balance_wallet_outlined,color: Colors.deepPurple,),
-              title: Text('Partial Payment',
+          const Divider(thickness: .1),
+          ListTile(leading: const Icon(Icons.account_balance_wallet_outlined,color: Colors.deepPurple,),
+              title: const Text('Partial Payment',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400)),
               onTap: () {}),
         ],),
@@ -46,7 +46,7 @@ class _PaymentTypeSheetState extends State<PaymentTypeSheet> {
   }
   Widget section(String title) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16, 20, 16, 8),
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
       child: Text(
         title,
         style: Theme.of(context).textTheme.caption,

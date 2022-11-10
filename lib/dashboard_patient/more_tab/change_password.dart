@@ -1,6 +1,6 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
-import 'package:medilife_patient/dashboard_patient/custom_widgtes/app_bar.dart';
+import 'package:medilife_patient/core/constants.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
+import 'package:medilife_patient/dashboard_patient/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -17,12 +17,11 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  TextEditingController _controllerMobileNumber = TextEditingController();
-  TextEditingController _controllerOldPassword = TextEditingController();
-  TextEditingController _controllerNewPassword = TextEditingController();
-  TextEditingController _controllerConfirmPassword = TextEditingController();
+  final TextEditingController _controllerOldPassword = TextEditingController();
+  final TextEditingController _controllerNewPassword = TextEditingController();
+  final TextEditingController _controllerConfirmPassword = TextEditingController();
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? name = ' ';
   String? number;
   bool changePasswordF = false;
@@ -46,9 +45,9 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60),
-        child: CustomAppBar(
+        child: CustomAppBarPD(
           isleading: false,
         ),
       ),
@@ -60,9 +59,9 @@ class _ChangePasswordState extends State<ChangePassword> {
             children: [
               AppBar(
                 backgroundColor: Colors.blue,
-                title: Text("Change Password"),
+                title: const Text("Change Password"),
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               Center(
                 child: Container(
                     width: MediaQuery.of(context).size.width * .95,
@@ -75,7 +74,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                           color: Colors.grey.withOpacity(0.8),
                           spreadRadius: 1,
                           blurRadius: 1,
-                          offset: Offset(1, 1), // changes position of shadow
+                          offset: const Offset(1, 1), // changes position of shadow
                         ),
                       ],
                     ),
@@ -83,17 +82,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Theme(
-                        data: new ThemeData(
+                        data:  ThemeData(
                           primaryColor: Colors.redAccent,
                           primaryColorDark: Colors.red,
                         ),
-                        child: new TextFormField(
+                        child:  TextFormField(
                           textInputAction: TextInputAction.next,
                           readOnly: false,
                           controller: _controllerOldPassword,
@@ -105,12 +104,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                           },
                           keyboardType: TextInputType.text,
                         obscureText: _isHidden1! ? true : false,
-                          decoration: new InputDecoration(
-                              border: new OutlineInputBorder(
-                                  borderSide: new BorderSide(color: Colors.teal)),
+                          decoration:  InputDecoration(
+                              border:  const OutlineInputBorder(
+                                  borderSide:  BorderSide(color: Colors.teal)),
                               labelText: 'Old Password',
                               prefixText: ' ',
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.lock_open,
                                 color: Colors.blue,
                               ),
@@ -127,17 +126,17 @@ class _ChangePasswordState extends State<ChangePassword> {
                       ),
                     ),
 
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Theme(
-                            data: new ThemeData(
+                            data:  ThemeData(
                               primaryColor: Colors.redAccent,
                               primaryColorDark: Colors.red,
                             ),
-                            child: new TextFormField(
+                            child:  TextFormField(
                               textInputAction: TextInputAction.next,
                               readOnly: false,
                               controller: _controllerNewPassword,
@@ -153,13 +152,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                               },
                               keyboardType: TextInputType.text,
                               obscureText: _isHidden2! ? true : false,
-                              decoration: new InputDecoration(
-                                  border: new OutlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.teal)),
+                              decoration:  InputDecoration(
+                                  border:  const OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.teal)),
                                   labelText: 'New Password',
                                   prefixText: ' ',
-                                  prefixIcon: Icon(
+                                  prefixIcon: const Icon(
                                     Icons.lock_clock,
                                     color: Colors.blue,
                                   ),
@@ -176,23 +174,23 @@ class _ChangePasswordState extends State<ChangePassword> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Theme(
-                            data: new ThemeData(
+                            data:  ThemeData(
                               primaryColor: Colors.redAccent,
                               primaryColorDark: Colors.red,
                             ),
-                            child: new TextFormField(
+                            child: TextFormField(
                               textInputAction: TextInputAction.next,
                               readOnly: false,
                               controller: _controllerConfirmPassword,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Enter Confirem Password';
+                                  return 'Enter Confirm Password';
                                 }
                                 if (_controllerNewPassword.text !=
                                     _controllerConfirmPassword.text) {
@@ -202,13 +200,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                               },
                               keyboardType: TextInputType.text,
                               obscureText: _isHidden3! ? true : false,
-                              decoration: new InputDecoration(
-                                  border: new OutlineInputBorder(
+                              decoration:  InputDecoration(
+                                  border:  const OutlineInputBorder(
                                       borderSide:
-                                          new BorderSide(color: Colors.teal)),
+                                           BorderSide(color: Colors.teal)),
                                   labelText: 'Confirm Password',
                                   prefixText: ' ',
-                                  prefixIcon: Icon(
+                                  prefixIcon: const Icon(
                                     Icons.lock_clock,
                                     color: Colors.blue,
                                   ),
@@ -225,48 +223,39 @@ class _ChangePasswordState extends State<ChangePassword> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
                         Center(
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * .87,
                             height: 60,
-                            child: Container(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _changePassword(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue,
-                                    textStyle: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold)),
-                                child: changePasswordF
-                                    ? Center(
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    : Text(
-                                        "Change",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      ),
-                              ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _changePassword(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue,
+                                  textStyle: const TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold)),
+                              child: changePasswordF
+                                  ? const Center(
+                                      child: CircularProgressIndicator(color: Colors.white,),
+                                    )
+                                  : const Text(
+                                      "Change",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
                             ),
                           ),
                         )
                       ],
                     )),
               ),
-              // Container(
-              //   width: double.infinity,
-              //   height: 50,
-              //   decoration:
-              //   BoxDecoration(border: Border.all(color: Colors.blueAccent),color: Colors.white),
-              //   child: Center(child: Text('कम से कम १०० रुपए डाल सकते हैं। ',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.redAccent),)),
-              // ),
             ],
           ),
         ),
@@ -299,7 +288,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       String? userType}) async {
     print("data DATA: $oldPass, $newPass, $mobile, $userType}");
     var APIURL =
-        'https://cabeloclinic.com/website/medlife/php_auth_api/patient_change_password_api.php';
+        '${API_BASE_URL}patient_change_password_api.php';
     Map<String, dynamic> body = {
       'mobile': mobile,
       'user_type': userType,
@@ -309,9 +298,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     http.Response response = await http
         .post(Uri.parse(APIURL), body: body)
         .then((value) => value)
-        .catchError((error) => print("changePassword Failed : $error"));
+        .catchError((error) => print(error));
     var data = jsonDecode(response.body);
-    print("getRegistration DATA: ${data}");
     return data[0]['success_status'];
   }
 
@@ -320,22 +308,21 @@ class _ChangePasswordState extends State<ChangePassword> {
       changePasswordF = true;
     });
     if (_formKey.currentState!.validate()) {
-      String success_status = await changePassword(
+      String successStatus = await changePassword(
           mobile: widget.mobile,
           userType: widget.userType,
           newPass: _controllerNewPassword.text,
           oldPass: _controllerOldPassword.text);
-      if (success_status == 'Ok') {
+      if (successStatus == 'Ok') {
         setState(() {
           changePasswordF = false;
         });
-        // _showDialog();
-        //
         CustomSnackBar.snackBar(
             context: context,
             data: 'Password Changed Successfully!',
             color: Colors.green);
-        Navigator.pop(context);
+        if (!mounted) return;
+        Navigator.of(context).pop();
       } else {
         setState(() {
           changePasswordF = false;
@@ -346,38 +333,10 @@ class _ChangePasswordState extends State<ChangePassword> {
     }
   }
 
-  _showDialog() {
-    return AwesomeDialog(
-      context: context,
-      dialogType: DialogType.SUCCES,
-      borderSide: const BorderSide(
-        color: Colors.green,
-        width: 2,
-      ),
-      width: MediaQuery.of(context).size.width,
-      buttonsBorderRadius: const BorderRadius.all(
-        Radius.circular(2),
-      ),
-      animType: AnimType.LEFTSLIDE,
-      headerAnimationLoop: false,
-      showCloseIcon: true,
-      title: 'Congratulation',
-      dismissOnTouchOutside: true,
-      dismissOnBackKeyPress: false,
-      desc: 'Your Password is Changed Successfully.',
-      btnOkOnPress: () {
-        _controllerNewPassword.clear();
-        _controllerOldPassword.clear();
-        _controllerConfirmPassword.clear();
-        Navigator.pop(context);
-      },
-    ).show();
-  }
-
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 1.0, color: Colors.black26),
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
           Radius.circular(5.0) //                 <--- border radius here
           ),
     );

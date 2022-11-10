@@ -11,8 +11,8 @@ class DoctorBoxPD extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.all(5),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(5),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -21,7 +21,7 @@ class DoctorBoxPD extends StatelessWidget {
               color: Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: const Offset(1, 1), // changes position of shadow
             ),
           ],
         ),
@@ -40,19 +40,19 @@ class DoctorBoxPD extends StatelessWidget {
                 )
               ),
             ),
-            SizedBox(height: 10),
-            Text(doctor["name"], maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-            SizedBox(height: 3),
-            Text(doctor["skill"], style: TextStyle(color: Colors.grey, fontSize: 13),),
-            SizedBox(height: 3),
+            const SizedBox(height: 10),
+            Text(doctor["name"], maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+            const SizedBox(height: 3),
+            Text(doctor["skill"], style: const TextStyle(color: Colors.grey, fontSize: 13),),
+            const SizedBox(height: 3),
             Row(
               children: [
-                Icon(Icons.star, color: Colors.yellow, size: 14,),
-                SizedBox(width: 2,),
-                Text("${doctor["review"]} Review", style: TextStyle(fontSize: 12),)
+                const Icon(Icons.star, color: Colors.yellow, size: 14,),
+                const SizedBox(width: 2,),
+                Text("${doctor["review"]} Review", style: const TextStyle(fontSize: 12),)
               ],
             ),
-            SizedBox(height: 3),
+            const SizedBox(height: 3),
           ],
         )
       ),

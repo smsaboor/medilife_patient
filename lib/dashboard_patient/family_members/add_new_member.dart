@@ -1,8 +1,9 @@
 import 'dart:convert';
-
-import 'package:medilife_patient/core/custom_form_field.dart';
+import 'package:flutter_package1/CustomFormField.dart';
 import 'package:flutter/material.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
+import 'package:medilife_patient/core/constants.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
+import 'package:medilife_patient/core/constatnts/components.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,9 +11,7 @@ class ModelRelation {
   ModelRelation({
     this.relation,
   });
-
   String? relation;
-
   factory ModelRelation.fromJson(Map<String, dynamic> json) => ModelRelation(
         relation: json["relation"],
       );
@@ -27,8 +26,8 @@ class AddMemberPD extends StatefulWidget {
 }
 
 class _AddMemberPDState extends State<AddMemberPD> {
-  TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerAge = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerAge = TextEditingController();
 
   String? name = ' ';
   String? number;
@@ -54,16 +53,12 @@ class _AddMemberPDState extends State<AddMemberPD> {
   }
 
   Future<void> getAllRelation() async {
-    print('.getAllRelation ..............................');
-    var API =
-        'https://cabeloclinic.com/website/medlife/php_auth_api/relation_api.php';
+    var API = '${API_BASE_URL}relation_api.php';
     http.Response response = await http
         .post(Uri.parse(API))
         .then((value) => value)
         .catchError((error) => print(" Failed to getAllPills $error"));
-    // print('...............................${response.body}');
     if (response.statusCode == 200) {
-      print('..getAllRelation....${response.body}');
       Iterable l = jsonDecode(response.body.toString());
       List<ModelRelation> pillss = List<ModelRelation>.from(
           l.map((model) => ModelRelation.fromJson(model)));
@@ -71,7 +66,6 @@ class _AddMemberPDState extends State<AddMemberPD> {
         // print('////////////////////${pillss[i].relation}');
       }
       for (int i = 0; i < pillss.length; i++) {
-        // print('////////////////////${pillss[i].relation}');
         pillsList.add('${pillss[i].relation}');
       }
       setState(() {
@@ -96,7 +90,7 @@ class _AddMemberPDState extends State<AddMemberPD> {
     "Grand Mother",
     "Father",
     "Mother",
-    "Doughter",
+    "Daughter",
     "Son",
     "Brother",
     "Sister",
@@ -104,14 +98,14 @@ class _AddMemberPDState extends State<AddMemberPD> {
     "Aunty"
   ];
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
-        title: Text('Add New Member'),
+        title: const Text('Add New Member'),
         centerTitle: true,
         leading: Builder(
           builder: (BuildContext context) {
@@ -135,7 +129,7 @@ class _AddMemberPDState extends State<AddMemberPD> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Center(
                 child: Container(
                     width: MediaQuery.of(context).size.width * .95,
@@ -148,7 +142,7 @@ class _AddMemberPDState extends State<AddMemberPD> {
                           color: Colors.grey.withOpacity(0.8),
                           spreadRadius: 1,
                           blurRadius: 1,
-                          offset: Offset(1, 1), // changes position of shadow
+                          offset: const Offset(1, 1), // changes position of shadow
                         ),
                       ],
                     ),
@@ -156,12 +150,7 @@ class _AddMemberPDState extends State<AddMemberPD> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(8, 8, 0, 15),
-                        //   child: TitleText(text: ' Profile Details'),
-                        // ),
-
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         CustomFormField(
@@ -169,15 +158,17 @@ class _AddMemberPDState extends State<AddMemberPD> {
                             controlller: _controllerName,
                             errorMsg: 'Enter Your Name',
                             labelText: 'Name',
+                            maxLimit: 25,
+                            maxLimitError: '25',
                             icon: Icons.perm_identity,
                             textInputType: TextInputType.text),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Theme(
-                            data: new ThemeData(
+                            data:  ThemeData(
                               primaryColor: Colors.redAccent,
                               primaryColorDark: Colors.red,
                             ),
@@ -217,19 +208,18 @@ class _AddMemberPDState extends State<AddMemberPD> {
                                           pills = relative;
                                         });
                                       }
-                                      print('------------------${spec}');
                                     }),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Theme(
-                            data: new ThemeData(
+                            data:  ThemeData(
                               primaryColor: Colors.redAccent,
                               primaryColorDark: Colors.red,
                             ),
@@ -238,22 +228,17 @@ class _AddMemberPDState extends State<AddMemberPD> {
                               padding: const EdgeInsets.only(left: 5.0),
                               decoration: myBoxDecoration(),
                               height: 60,
-                              //
                               width: MediaQuery.of(context).size.width,
-                              //          <// --- BoxDecoration here
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: DropdownButton(
-                                    // Initial Value
                                     menuMaxHeight:
                                         MediaQuery.of(context).size.height,
                                     value: gender,
                                     dropdownColor: Colors.white,
                                     focusColor: Colors.blue,
                                     isExpanded: true,
-                                    // Down Arrow Icon
                                     icon: const Icon(Icons.keyboard_arrow_down),
-                                    // Array list of items
                                     items: genderList.map((String items) {
                                       return DropdownMenuItem(
                                         value: items,
@@ -268,23 +253,22 @@ class _AddMemberPDState extends State<AddMemberPD> {
                                           gender = spec.toString();
                                         });
                                       }
-                                      print('------------------${spec}');
                                     }),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Theme(
-                            data: new ThemeData(
+                            data:  ThemeData(
                               primaryColor: Colors.redAccent,
                               primaryColorDark: Colors.red,
                             ),
-                            child: new TextFormField(
+                            child:  TextFormField(
                               textInputAction: TextInputAction.next,
                               maxLength: 2,
                               readOnly: false,
@@ -296,10 +280,10 @@ class _AddMemberPDState extends State<AddMemberPD> {
                                 return null;
                               },
                               keyboardType: TextInputType.number,
-                              decoration: new InputDecoration(
-                                  border: new OutlineInputBorder(
+                              decoration:  const InputDecoration(
+                                  border:  OutlineInputBorder(
                                       borderSide:
-                                          new BorderSide(color: Colors.teal)),
+                                           BorderSide(color: Colors.teal)),
                                   labelText: 'Age',
                                   prefixText: ' ',
                                   prefixIcon: Icon(
@@ -307,54 +291,45 @@ class _AddMemberPDState extends State<AddMemberPD> {
                                     color: Colors.blue,
                                   ),
                                   suffixStyle:
-                                      const TextStyle(color: Colors.green)),
+                                      TextStyle(color: Colors.green)),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 70,
                         ),
                         Center(
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * .87,
                             height: 60,
-                            child: Container(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  addMember(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.pink,
-                                    textStyle: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold)),
-                                child: addMembers
-                                    ? Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    : Text(
-                                        "Add Memeber",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                addMember(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.pink,
+                                  textStyle: const TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold)),
+                              child: addMembers
+                                  ? const Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
                                       ),
-                              ),
+                                    )
+                                  : const Text(
+                                      "Add Member",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
                             ),
                           ),
                         )
                       ],
                     )),
               ),
-              // Container(
-              //   width: double.infinity,
-              //   height: 50,
-              //   decoration:
-              //   BoxDecoration(border: Border.all(color: Colors.blueAccent),color: Colors.white),
-              //   child: Center(child: Text('कम से कम १०० रुपए डाल सकते हैं। ',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.redAccent),)),
-              // ),
             ],
           ),
         ),
@@ -365,7 +340,7 @@ class _AddMemberPDState extends State<AddMemberPD> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 1.0, color: Colors.black26),
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
           Radius.circular(5.0) //                 <--- border radius here
           ),
     );
@@ -384,7 +359,7 @@ class _AddMemberPDState extends State<AddMemberPD> {
         dataAddDosesF = true;
       });
     }
-    var API = 'https://cabeloclinic.com/website/medlife/php_auth_api/member_add_api.php';
+    var API = '${API_BASE_URL}member_add_api.php';
     Map<String, dynamic> body = {
       'parent_id': widget.patientID,
       'name': _controllerName.text,
@@ -395,23 +370,18 @@ class _AddMemberPDState extends State<AddMemberPD> {
     http.Response response = await http
         .post(Uri.parse(API), body: body)
         .then((value) => value)
-        .catchError((error) => print(" Failed to addDoses: $error"));
+        .catchError((error) => print(error));
     if (response.statusCode == 200) {
       if (mounted) {
         setState(() {
           dataAddDosesF = false;
         });
       }
-      // print('..addDoses 22222222222222222222222222222222....${response.body}');
       dataAddDoses = jsonDecode(response.body.toString());
       if (dataAddDoses[0]['status'] == '1') {
-        CustomSnackBar.snackBar(
-            context: context,
-            data: 'Added Successfully !',
-            color: Colors.green);
+      showToast(msg: 'Family Member Added !');
         if (mounted) {
           setState(() {
-
           });
         }
         Navigator.pop(context);

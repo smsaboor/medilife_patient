@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AvatarImagePD extends StatelessWidget {
-  const AvatarImagePD(this.url, {this.width = 110, this.height = 140, this.bgColor, this.borderWidth = 0, this.radius = 10,this.borderColor});
+  const AvatarImagePD(this.url, {super.key, this.width = 110, this.height = 140, this.bgColor, this.borderWidth = 0, this.radius = 10,this.borderColor});
   final String url;
   final double width;
   final double height;
@@ -25,7 +25,7 @@ class AvatarImagePD extends StatelessWidget {
               color: Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: const Offset(1, 1), // changes position of shadow
             ),
           ],
           image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),

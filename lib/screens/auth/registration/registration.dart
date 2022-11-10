@@ -1,11 +1,10 @@
 import 'package:medilife_patient/core/constants.dart';
+import 'package:medilife_patient/core/constatnts/components.dart';
 import 'package:medilife_patient/screens/auth/login/login.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:medilife_patient/model/model_doctor.dart';
 import 'package:medilife_patient/model/model_patient.dart';
-import 'package:medilife_patient/route.dart';
-import 'package:medilife_patient/screens/auth/registration/CustomFormField.dart';
+import 'package:flutter_package1/CustomFormField.dart';
 import 'package:medilife_patient/service/api.dart';
 
 
@@ -19,11 +18,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  // getSP()async{
-  //   await SharedPreferences.getInstance();
-  // }
-
-
   var stateInitial="Andhra Pradesh";
   var stateList = [
     "Andhra Pradesh",
@@ -76,7 +70,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'Surya Hospital',
     'PGI Hospital',
   ];
-  String? _selectedState = "Choose State";
   String dropdownvalue = 'Patient';
   String? currentUser = 'Patient';
   String? specialityOF = 'Sergion';
@@ -84,19 +77,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool tryRegistration=false;
 
-  final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
-  TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerHospitalName = TextEditingController();
-  TextEditingController _controllerMobile = TextEditingController();
-  TextEditingController _controllerPhone = TextEditingController();
-  TextEditingController _controllerEmergencyNum = TextEditingController();
-  TextEditingController _controllerAddress = TextEditingController();
-  TextEditingController _controllerState = TextEditingController();
-  TextEditingController _controllerPin = TextEditingController();
-  TextEditingController _controllerDistrict = TextEditingController();
-  TextEditingController _controllerCity = TextEditingController();
-  TextEditingController _controllerPassword = TextEditingController();
-  TextEditingController _controllerConfirmPwd = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerHospitalName = TextEditingController();
+  final TextEditingController _controllerMobile = TextEditingController();
+  final TextEditingController _controllerPhone = TextEditingController();
+  final TextEditingController _controllerEmergencyNum = TextEditingController();
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerPin = TextEditingController();
+  final TextEditingController _controllerDistrict = TextEditingController();
+  final TextEditingController _controllerCity = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _controllerConfirmPwd = TextEditingController();
 
   @override
   void initState() {
@@ -114,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 1.0, color: Colors.black26),
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
           Radius.circular(5.0) //                 <--- border radius here
           ),
     );
@@ -148,8 +140,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * .01,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0, bottom: 15),
+              const Padding(
+                padding: EdgeInsets.only(left: 25.0, bottom: 15),
                 child: Text(
                   "SignUp",
                   style: TextStyle(
@@ -159,59 +151,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textAlign: TextAlign.left,
                 ),
               ),
-              new Padding(
-                padding: const EdgeInsets.only(top: 5.0),
+              const Padding(
+                padding: EdgeInsets.only(top: 5.0),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: 20.0, right: 20),
-              //   child: Theme(
-              //     data: new ThemeData(
-              //       primaryColor: Colors.redAccent,
-              //       primaryColorDark: Colors.red,
-              //     ),
-              //     child: Container(
-              //       margin: const EdgeInsets.all(1.0),
-              //       padding: const EdgeInsets.only(left: 5.0),
-              //       decoration: myBoxDecoration(),
-              //       height: 60,
-              //       //
-              //       width: MediaQuery.of(context).size.width,
-              //       //          <// --- BoxDecoration here
-              //       child: Padding(
-              //         padding: const EdgeInsets.only(left: 8.0),
-              //         child: DropdownButton(
-              //             // Initial Value
-              //             menuMaxHeight: MediaQuery.of(context).size.height,
-              //             value: currentUser,
-              //             dropdownColor: Colors.white,
-              //             focusColor: Colors.blue,
-              //             isExpanded: true,
-              //             // Down Arrow Icon
-              //             icon: const Icon(Icons.keyboard_arrow_down),
-              //             // Array list of items
-              //             items: usertype.map((String items) {
-              //               return DropdownMenuItem(
-              //                 value: items,
-              //                 child: Text(items),
-              //               );
-              //             }).toList(),
-              //             // After selecting the desired option,it will
-              //             // change button value to selected value
-              //             onChanged: (user) {
-              //               setState(() {
-              //                 currentUser = user.toString();
-              //               });
-              //             }),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               SizedBox(height: size.height * 0.006),
               currentUser == 'Doctor'
-                  ? buildDoctorForm(context)
+                  ? buildPatientForm()
                   : currentUser == 'Patient'
                       ? buildPatientForm()
-                      : buildAssistentForm(),
+                      : buildPatientForm(),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .05,
               ),
@@ -226,12 +174,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold)),
                       child: tryRegistration
-                          ? Center(
+                          ? const Center(
                         child: CircularProgressIndicator(color: Colors.white,),
-                      ):Text(
+                      ):const Text(
                         "Submit",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -248,154 +196,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  buildDoctorForm(BuildContext context) {
-    return Column(
-      children: [
-        CustomFormField(
-            controlller: _controllerHospitalName,
-            errorMsg: 'Enter Your Hospital/Clinic',
-            labelText: 'Hospital/Clinic',
-            readOnly: false,
-            icon: Icons.local_hospital,
-            textInputType: TextInputType.text),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerName,
-            errorMsg: 'Enter Your Name',
-            readOnly: false,
-            labelText: 'Doctor Name',
-            icon: Icons.person,
-            textInputType: TextInputType.text),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        // CustomDropDown(
-        //   boxDecoration: myBoxDecoration(),
-        //   dropdownValue: specialityOF,
-        //   list: speciality,
-        //   setStateValue: specialityOF,
-        //   onClicked: (spec) {
-        //     setState(() {
-        //       specialityOF = spec.toString();
-        //     });
-        //     print('------------------${spec}');
-        //   },
-        // ),
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 20.0, right: 20),
-        //   child: Theme(
-        //     data: new ThemeData(
-        //       primaryColor: Colors.redAccent,
-        //       primaryColorDark: Colors.red,
-        //     ),
-        //     child: Container(
-        //       margin: const EdgeInsets.all(1.0),
-        //       padding: const EdgeInsets.only(left: 5.0),
-        //       decoration: myBoxDecoration(),
-        //       height: 60,
-        //       //
-        //       width: MediaQuery.of(context).size.width,
-        //       //          <// --- BoxDecoration here
-        //       child: Padding(
-        //         padding: const EdgeInsets.only(left: 8.0),
-        //         child: DropdownButton(
-        //             // Initial Value
-        //             menuMaxHeight: MediaQuery.of(context).size.height,
-        //             value: specialityOF,
-        //             dropdownColor: Colors.white,
-        //             focusColor: Colors.blue,
-        //             isExpanded: true,
-        //             // Down Arrow Icon
-        //             icon: const Icon(Icons.keyboard_arrow_down),
-        //             // Array list of items
-        //             items: speciality.map((String items) {
-        //               return DropdownMenuItem(
-        //                 value: items,
-        //                 child: Text(items),
-        //               );
-        //             }).toList(),
-        //             // After selecting the desired option,it will
-        //             // change button value to selected value
-        //             onChanged: (spec) {
-        //               if (mounted) {
-        //                 setState(() {
-        //                   specialityOF = spec.toString();
-        //                 });
-        //               }
-        //             }),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerMobile,
-            errorMsg: 'Enter Your Mobile',
-            labelText: 'Mobile',
-            readOnly: true,
-            icon: Icons.phone_android,
-            textInputType: TextInputType.number),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerPhone,
-            errorMsg: 'Enter Your Phone',
-            readOnly: false,
-            labelText: 'Enter Your Phone',
-            icon: Icons.phone,
-            textInputType: TextInputType.number),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerEmergencyNum,
-            errorMsg: 'Enter Your Emergency Number',
-            readOnly: false,
-            labelText: 'Emergency Number',
-            icon: Icons.phone_android,
-            textInputType: TextInputType.number),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerAddress,
-            errorMsg: 'Enter Your Address',
-            labelText: 'Address',
-            readOnly: false,
-            icon: Icons.home,
-            textInputType: TextInputType.text),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        stateWidget(),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerCity,
-            errorMsg: 'Enter Your City',
-            labelText: 'City',
-            readOnly: false,
-            icon: Icons.location_city,
-            textInputType: TextInputType.text),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerDistrict,
-            errorMsg: 'Enter Your District',
-            labelText: 'District',
-            readOnly: false,
-            icon: Icons.location_city_sharp,
-            textInputType: TextInputType.text),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerPin,
-            errorMsg: 'Enter Your Pin',
-            labelText: 'Pin',
-            readOnly: false,
-            icon: Icons.pin,
-            textInputType: TextInputType.number),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        CustomFormField(
-            controlller: _controllerPassword,
-            errorMsg: 'Enter Your Password',
-            readOnly: false,
-            labelText: 'Password',
-            icon: Icons.password,
-            textInputType: TextInputType.text),
-
-      ],
-    );
-  }
-
   buildPatientForm() {
     return Column(
       children: [
@@ -406,7 +206,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             labelText: 'Patient Name',
             readOnly: false,
             icon: Icons.person,
-            textInputType: TextInputType.text),
+            textInputType: TextInputType.text,
+        maxLimit: 30,
+          maxLimitError: '30',
+        ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         CustomFormField(
             controlller: _controllerMobile,
@@ -414,6 +217,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             labelText: 'Mobile',
             readOnly: true,
             icon: Icons.phone_android,
+            maxLimit: 10,
+            maxLimitError: '10',
             textInputType: TextInputType.number),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         CustomFormField(
@@ -422,6 +227,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             labelText: 'Address',
             readOnly: false,
             icon: Icons.home,
+            maxLimit: 60,
+            maxLimitError: '60',
             textInputType: TextInputType.text),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         stateWidget(),
@@ -432,6 +239,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             labelText: 'City',
             readOnly: false,
             icon: Icons.location_city,
+            maxLimit: 30,
+            maxLimitError: '30',
             textInputType: TextInputType.text),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         CustomFormField(
@@ -439,6 +248,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             errorMsg: 'Enter Your District',
             readOnly: false,
             labelText: 'District',
+            maxLimit: 30,
+            maxLimitError: '30',
             icon: Icons.location_city_sharp,
             textInputType: TextInputType.text),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
@@ -448,6 +259,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             readOnly: false,
             labelText: 'Pin',
             icon: Icons.pin,
+            maxLimit: 8,
+            maxLimitError: '8',
             textInputType: TextInputType.number),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         CustomFormField(
@@ -455,17 +268,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
             errorMsg: 'Enter Your Password',
             readOnly: false,
             labelText: 'Password',
+            maxLimit: 8,
+            maxLimitError: '8',
             icon: Icons.password,
             textInputType: TextInputType.text),
         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
         Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20),
           child: Theme(
-            data: new ThemeData(
+            data: ThemeData(
               primaryColor: Colors.redAccent,
               primaryColorDark: Colors.red,
             ),
-            child: new TextFormField(
+            child: TextFormField(
               textInputAction: TextInputAction.next,
               controller: _controllerConfirmPwd,
               validator: (value) {
@@ -478,12 +293,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 return null;
               },
               keyboardType: TextInputType.text,
-              decoration: new InputDecoration(
-                  border: new OutlineInputBorder(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
                       borderSide: new BorderSide(color: Colors.teal)),
                   labelText: 'Confirm Password',
                   prefixText: ' ',
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.password,
                     color: Colors.blue,
                   ),
@@ -495,134 +310,134 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  buildAssistentForm() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20),
-          child: Theme(
-            data: new ThemeData(
-              primaryColor: Colors.redAccent,
-              primaryColorDark: Colors.red,
-            ),
-            child: Container(
-              margin: const EdgeInsets.all(1.0),
-              padding: const EdgeInsets.only(left: 5.0),
-              decoration: myBoxDecoration(),
-              height: 60,
-              //
-              width: MediaQuery.of(context).size.width,
-              //          <// --- BoxDecoration here
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: DropdownButton(
-                    // Initial Value
-                    menuMaxHeight: MediaQuery.of(context).size.height,
-                    value: currentHospital,
-                    dropdownColor: Colors.white,
-                    focusColor: Colors.blue,
-                    isExpanded: true,
-                    // Down Arrow Icon
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    // Array list of items
-                    items: hospitalsName.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(items),
-                      );
-                    }).toList(),
-                    // After selecting the desired option,it will
-                    // change button value to selected value
-                    onChanged: (hos) {
-                      setState(() {
-                        currentHospital = hos.toString();
-                      });
-                    }),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20),
-          child: Theme(
-            data: new ThemeData(
-              primaryColor: Colors.redAccent,
-              primaryColorDark: Colors.red,
-            ),
-            child: new TextFormField(
-              textInputAction: TextInputAction.next,
-              controller: _controllerName,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter Your Name';
-                }
-                return null;
-              },
-              onChanged: (v) {
-                setState(() {
-                  tryRegistration = false;
-                });
-              },
-              keyboardType: TextInputType.text,
-              decoration: new InputDecoration(
-                  border: new OutlineInputBorder(
-                      borderSide: new BorderSide(color: Colors.teal)),
-                  labelText: 'Doctor Name',
-                  prefixText: ' ',
-                  prefixIcon: Icon(
-                    Icons.person,
-                    color: Colors.blue,
-                  ),
-                  suffixStyle: const TextStyle(color: Colors.green)),
-            ),
-          ),
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20),
-          child: Theme(
-            data: new ThemeData(
-              primaryColor: Colors.redAccent,
-              primaryColorDark: Colors.red,
-            ),
-            child: new TextFormField(
-              textInputAction: TextInputAction.next,
-              controller: _controllerMobile,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Enter Your Mobile';
-                }
-                return null;
-              },
-              onChanged: (v) {
-                setState(() {
-                  tryRegistration = false;
-                });
-              },
-              keyboardType: TextInputType.number,
-              decoration: new InputDecoration(
-                  border: new OutlineInputBorder(
-                      borderSide: new BorderSide(color: Colors.teal)),
-                  labelText: 'Mobile',
-                  prefixText: ' ',
-                  prefixIcon: Icon(
-                    Icons.phone_android,
-                    color: Colors.blue,
-                  ),
-                  suffixStyle: const TextStyle(color: Colors.green)),
-            ),
-          ),
-        ),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-      ],
-    );
-  }
+  // buildAssistentForm() {
+  //   return Column(
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 20.0, right: 20),
+  //         child: Theme(
+  //           data: new ThemeData(
+  //             primaryColor: Colors.redAccent,
+  //             primaryColorDark: Colors.red,
+  //           ),
+  //           child: Container(
+  //             margin: const EdgeInsets.all(1.0),
+  //             padding: const EdgeInsets.only(left: 5.0),
+  //             decoration: myBoxDecoration(),
+  //             height: 60,
+  //             //
+  //             width: MediaQuery.of(context).size.width,
+  //             //          <// --- BoxDecoration here
+  //             child: Padding(
+  //               padding: const EdgeInsets.only(left: 8.0),
+  //               child: DropdownButton(
+  //                   // Initial Value
+  //                   menuMaxHeight: MediaQuery.of(context).size.height,
+  //                   value: currentHospital,
+  //                   dropdownColor: Colors.white,
+  //                   focusColor: Colors.blue,
+  //                   isExpanded: true,
+  //                   // Down Arrow Icon
+  //                   icon: const Icon(Icons.keyboard_arrow_down),
+  //                   // Array list of items
+  //                   items: hospitalsName.map((String items) {
+  //                     return DropdownMenuItem(
+  //                       value: items,
+  //                       child: Text(items),
+  //                     );
+  //                   }).toList(),
+  //                   // After selecting the desired option,it will
+  //                   // change button value to selected value
+  //                   onChanged: (hos) {
+  //                     setState(() {
+  //                       currentHospital = hos.toString();
+  //                     });
+  //                   }),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 20.0, right: 20),
+  //         child: Theme(
+  //           data: new ThemeData(
+  //             primaryColor: Colors.redAccent,
+  //             primaryColorDark: Colors.red,
+  //           ),
+  //           child: new TextFormField(
+  //             textInputAction: TextInputAction.next,
+  //             controller: _controllerName,
+  //             validator: (value) {
+  //               if (value!.isEmpty) {
+  //                 return 'Enter Your Name';
+  //               }
+  //               return null;
+  //             },
+  //             onChanged: (v) {
+  //               setState(() {
+  //                 tryRegistration = false;
+  //               });
+  //             },
+  //             keyboardType: TextInputType.text,
+  //             decoration: new InputDecoration(
+  //                 border: new OutlineInputBorder(
+  //                     borderSide: new BorderSide(color: Colors.teal)),
+  //                 labelText: 'Doctor Name',
+  //                 prefixText: ' ',
+  //                 prefixIcon: Icon(
+  //                   Icons.person,
+  //                   color: Colors.blue,
+  //                 ),
+  //                 suffixStyle: const TextStyle(color: Colors.green)),
+  //           ),
+  //         ),
+  //       ),
+  //       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 20.0, right: 20),
+  //         child: Theme(
+  //           data: new ThemeData(
+  //             primaryColor: Colors.redAccent,
+  //             primaryColorDark: Colors.red,
+  //           ),
+  //           child: new TextFormField(
+  //             textInputAction: TextInputAction.next,
+  //             controller: _controllerMobile,
+  //             validator: (value) {
+  //               if (value!.isEmpty) {
+  //                 return 'Enter Your Mobile';
+  //               }
+  //               return null;
+  //             },
+  //             onChanged: (v) {
+  //               setState(() {
+  //                 tryRegistration = false;
+  //               });
+  //             },
+  //             keyboardType: TextInputType.number,
+  //             decoration: new InputDecoration(
+  //                 border: new OutlineInputBorder(
+  //                     borderSide: new BorderSide(color: Colors.teal)),
+  //                 labelText: 'Mobile',
+  //                 prefixText: ' ',
+  //                 prefixIcon: Icon(
+  //                   Icons.phone_android,
+  //                   color: Colors.blue,
+  //                 ),
+  //                 suffixStyle: const TextStyle(color: Colors.green)),
+  //           ),
+  //         ),
+  //       ),
+  //       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+  //     ],
+  //   );
+  // }
 stateWidget(){
     return  Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20),
       child: Theme(
-        data: new ThemeData(
+        data: ThemeData(
           primaryColor: Colors.redAccent,
           primaryColorDark: Colors.red,
         ),
@@ -658,8 +473,6 @@ stateWidget(){
                   setState(() {
                     stateInitial = user.toString();
                   });
-                  print('------------------${user}');
-                  print('------------------${user}');
                 }),
           ),
         ),
@@ -688,6 +501,7 @@ stateWidget(){
           setState(() {
             tryRegistration = false;
           });
+          showToast(msg: 'Successfully Registered !');
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -731,7 +545,6 @@ stateWidget(){
             ),
                 (route) => false,
           );
-          // Navigator.pushNamedAndRemoveUntil(context, "/signin", (Route<dynamic> route) => false);
         }else{
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Please select number'),

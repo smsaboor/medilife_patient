@@ -10,7 +10,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class DoctorPagePD extends StatefulWidget {
   const DoctorPagePD({Key? key}) : super(key: key);
-
   @override
   _DoctorPagePDState createState() => _DoctorPagePDState();
 }
@@ -23,13 +22,13 @@ class _DoctorPagePDState extends State<DoctorPagePD> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Doctors",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10),
             child: Icon(
               Icons.info,
               color: Colors.grey,
@@ -48,7 +47,7 @@ class _DoctorPagePDState extends State<DoctorPagePD> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(
-                children: [
+                children: const [
                   Expanded(child: CustomTextBoxPD()),
                   SizedBox(
                     width: 5,
@@ -60,7 +59,7 @@ class _DoctorPagePDState extends State<DoctorPagePD> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SingleChildScrollView(
@@ -72,15 +71,15 @@ class _DoctorPagePDState extends State<DoctorPagePD> {
                               padding: const EdgeInsets.only(right: 10),
                               child: Badge(
                                   badgeColor: Colors.green,
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   position:
                                       BadgePosition.topEnd(top: -3, end: 0),
-                                  badgeContent: Text(''),
+                                  badgeContent: const Text(''),
                                   child: AvatarImagePD(
                                       chatsData[index]["image"].toString())),
                             ))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               getDoctorList()
@@ -88,9 +87,9 @@ class _DoctorPagePDState extends State<DoctorPagePD> {
   }
 
   getDoctorList() {
-    return new StaggeredGridView.countBuilder(
+    return  StaggeredGridView.countBuilder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 4,
       itemCount: doctors.length,
       itemBuilder: (BuildContext context, int index) => DoctorBoxPD(
@@ -106,7 +105,7 @@ class _DoctorPagePDState extends State<DoctorPagePD> {
           index: index,
           doctor: doctors[index]),
       staggeredTileBuilder: (int index) =>
-          new StaggeredTile.count(2, index.isEven ? 3 : 2),
+           StaggeredTile.count(2, index.isEven ? 3 : 2),
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,
     );

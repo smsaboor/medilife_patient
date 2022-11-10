@@ -11,13 +11,11 @@ class ImageExample extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(title: Text('Image Upload'),),
+        appBar: AppBar(title: const Text('Image Upload'),),
         body: Center(
-          child: Container(
-            child: TextButton(onPressed: (){
-              uploadImage('image', File('assets/img.png'));
-            },child: Text('Upload'),),
-          ),
+          child: TextButton(onPressed: (){
+            uploadImage('image', File('assets/img.png'));
+          },child: const Text('Upload'),),
         ),
       ),
     );

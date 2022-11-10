@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medilife_patient/dashboard_patient/doctor/doctor_profile_page.dart';
 import 'package:medilife_patient/dashboard_patient/widgets/popular_doctor.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
+import 'package:flutter_package1/loading/loading_card_list.dart';
 
 class SearchResult extends StatefulWidget {
   const SearchResult({Key? key,required this.data,required this.userData}) : super(key: key);
@@ -32,15 +31,15 @@ class _SearchResultState extends State<SearchResult> {
                   onTap: (){
                     Navigator.pop(context);
                   },
-                  child: Icon(Icons.arrow_back)),
-              title: Text('Searched Doctors'),
+                  child: const Icon(Icons.arrow_back)),
+              title: const Text('Searched Doctors'),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             widget.data[0]['status'] == '0'
                 ? Center(child: Text('${widget.data[0]['message']}'))
                 : ListView.builder(
                 shrinkWrap: true,
-                physics: ScrollPhysics(),
+                physics: const ScrollPhysics(),
                 itemCount: widget.data.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(

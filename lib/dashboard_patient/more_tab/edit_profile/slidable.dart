@@ -8,7 +8,7 @@ class SliDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Slidable Example',
+      title: 'Slid-able Example',
       home: Scaffold(
         body: ListView(
           children: [

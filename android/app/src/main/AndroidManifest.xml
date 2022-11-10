@@ -2,7 +2,7 @@
     package="com.example.medilife_patient">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="medilipse_patient"
+        android:label="Ows Patient"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

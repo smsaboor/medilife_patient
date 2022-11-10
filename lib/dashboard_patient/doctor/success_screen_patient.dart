@@ -12,7 +12,7 @@ class _SuccessScreenPDState extends State<SuccessScreenPD> {
   void initState() {
     super.initState();
     Timer(
-      Duration(milliseconds: 2200),
+      const Duration(milliseconds: 2200),
       () {
         Navigator.popUntil(
           context,
@@ -24,18 +24,14 @@ class _SuccessScreenPDState extends State<SuccessScreenPD> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return const Material(
       color: Colors.white,
       child: Center(
-        child: Container(
-          child: Center(
-            child: FlareActor(
-              "assets/animations/Success Check.flr",
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              animation: "Untitled",
-            ),
-          ),
+        child: FlareActor(
+          "assets/animations/Success Check.flr",
+          alignment: Alignment.center,
+          fit: BoxFit.contain,
+          animation: "Untitled",
         ),
       ),
     );

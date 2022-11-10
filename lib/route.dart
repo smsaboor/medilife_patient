@@ -22,21 +22,19 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case intro:
-        return MaterialPageRoute(builder: (_) => SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case splash:
-        return MaterialPageRoute(builder: (_) => SplashScreen());
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case loading:
         return MaterialPageRoute(builder: (_) => Container());
       case error:
         return MaterialPageRoute(builder: (_) => Container());
       case signIn:
-        return MaterialPageRoute(builder: (_) => LoginScreen());
+        return MaterialPageRoute(builder: (_) => const LoginScreen());
       case signUp:
-        return MaterialPageRoute(builder: (_) => SignUpScreen(mobile: 1010,));
+        return MaterialPageRoute(builder: (_) => const SignUpScreen(mobile: 1010,));
       case userDetail:
         return MaterialPageRoute(builder: (_) => Container());
-      // case otp:
-      //   return MaterialPageRoute(builder: (_) => OtpScreen(mobile: mobile));
       case pwdReset:
         return MaterialPageRoute(builder: (_) => Container());
       case bottomNavScreen:

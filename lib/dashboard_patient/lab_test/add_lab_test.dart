@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/dashboard_patient/lab_test/add_lab_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:medilife_patient/dashboard_patient/lab_test/custom_test_display.dart';
-
+import 'package:flutter_package1/loading/loading_card_list.dart';
 
 class AddLabTest extends StatefulWidget {
   const AddLabTest({Key? key,required this.patientId}) : super(key: key);
@@ -22,9 +19,7 @@ class _AddLabTestState extends State<AddLabTest> {
   Future<void> getAllTest() async {
     var API = 'all_lab_tests_api.php';
     http.Response response = await http
-        .get(Uri.parse(API_BASE_URL + API))
-        .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
+        .get(Uri.parse(API_BASE_URL + API));
     if (response.statusCode == 200) {
       allTest = jsonDecode(response.body.toString());
       if (mounted) {
@@ -32,7 +27,9 @@ class _AddLabTestState extends State<AddLabTest> {
           allTestF=false;
         });
       }
-    } else {}
+    } else {
+      throw Exception('Failed to lab test');
+    }
   }
 
   @override
@@ -46,8 +43,9 @@ class _AddLabTestState extends State<AddLabTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Lab Test'),
+        title: const Text('Select Lab Test'),
         centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -55,13 +53,13 @@ class _AddLabTestState extends State<AddLabTest> {
             Card(
                 child: Column(children: [
                   allTestF
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
+                      ? LoadingCardList()
+                      : SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          physics: ScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           itemCount: allTest.length,
                           itemBuilder: (context, index) {
                             return GestureDetector(

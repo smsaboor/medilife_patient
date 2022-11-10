@@ -11,7 +11,7 @@ class CustomTextBoxPD extends StatelessWidget {
           color: Colors.grey.shade300,
           borderRadius: BorderRadius.circular(50)
         ),
-        child: TextField(
+        child: const TextField(
           style: TextStyle(color: Colors.black),
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.search, color: Colors.grey),

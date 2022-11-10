@@ -4,19 +4,9 @@ import 'package:medilife_patient/model/model_doctor.dart';
 import 'package:medilife_patient/model/model_otp.dart';
 import 'package:medilife_patient/model/model_patient.dart';
 import 'dart:convert';
-
-import 'package:medilife_patient/model/model_verify.dart';
-
 class ApiService {
   static Future<dynamic> checkUserRegistered(String mobile) async {
-    // Dio dio = Dio();
-    // Response responce;
-    // responce = await dio.post(
-    //   APIURLRegistration,
-    //   data: formData,
-    // );
-    // print("response data " + responce.toString());
-    var APIURLRegistration = 'https://cabeloclinic.com/website/medlife/php_auth_api/patient_register_api.php';
+    var APIURLRegistration = '${API_BASE_URL}patient_register_api.php';
     Map<String, dynamic> body = {'mobile': mobile};
     http.Response response = await http
         .post(Uri.parse(APIURLRegistration), body: body)
@@ -26,8 +16,19 @@ class ApiService {
     var data = jsonDecode(response.body);
     return data;
   }
+  static Future<dynamic> checkUserRegisteredForgetPassword(String mobile) async {
+    var APIURLRegistration = '${API_BASE_URL}for_forget_register_patient_api.php';
+    Map<String, dynamic> body = {'mobile': mobile};
+    http.Response response = await http
+        .post(Uri.parse(APIURLRegistration), body: body)
+        .then((value) => value)
+        .catchError((error) =>
+        print("Doctor app Failed to registerUserwithOtp: $error"));
+    var data = jsonDecode(response.body);
+    return data;
+  }
   static Future<dynamic> checkUserRegisteredInner(String mobile) async {
-    var APIURLRegistration = 'https://cabeloclinic.com/website/medlife/php_auth_api/inner_register_api.php';
+    var APIURLRegistration = '${API_BASE_URL}inner_register_api.php';
     Map<String, dynamic> body = {'mobile': mobile};
     http.Response response = await http
         .post(Uri.parse(APIURLRegistration), body: body)
@@ -88,7 +89,7 @@ class ApiService {
       'password': pwd,
     };
     var APIURLRegistration =
-        'https://cabeloclinic.com/website/medlife/php_auth_api/patient_login_api.php';
+        '${API_BASE_URL}patient_login_api.php';
     http.Response response = await http
         .post(Uri.parse(APIURLRegistration), body: body)
         .then((value) => value)
@@ -100,7 +101,7 @@ class ApiService {
 
 
   static Future<String> verifyOtp(OtpModel model) async {
-    var APIURLRegistration = 'https://cabeloclinic.com/website/medlife/php_auth_api/otp_verified.php';
+    var APIURLRegistration = '${API_BASE_URL}otp_verified.php';
     http.Response response = await http
         .post(Uri.parse(APIURLRegistration), body: model.toMap())
         .then((value) => value)

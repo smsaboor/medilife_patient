@@ -1,18 +1,18 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:medilife_patient/dashboard_patient/widgets/avatar_image.dart';
 import 'package:http/http.dart' as http;
 import 'sheet_lab_test.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+
 class TestCard extends StatefulWidget {
-  TestCard({Key? key,
-    required this.test,
-    required this.status,
-    required this.patientId})
+  TestCard(
+      {Key? key,
+      required this.test,
+      required this.status,
+      required this.patientId})
       : super(key: key);
   var test;
   final status;
@@ -26,7 +26,6 @@ class _TestCardState extends State<TestCard> {
   bool allTestF = true;
   bool deleteTestFlag = false;
   bool bookTestFlag = false;
-
   Future<void> deleteLabTest(String id) async {
     if (mounted) {
       setState(() {
@@ -54,7 +53,7 @@ class _TestCardState extends State<TestCard> {
             color: Colors.green);
       } else {
         CustomSnackBar.snackBar(
-            context: context, data: 'oops somthing wrong !', color: Colors.red);
+            context: context, data: 'oops something wrong !', color: Colors.red);
       }
     } else {}
   }
@@ -94,7 +93,8 @@ class _TestCardState extends State<TestCard> {
             data: 'Lab Test Booking Fail !',
             color: Colors.red);
       }
-      Navigator.pop(context);
+      if (!mounted) return;
+      Navigator.of(context).pop();
     } else {}
   }
 
@@ -102,7 +102,6 @@ class _TestCardState extends State<TestCard> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // print('-1111111111111133111111111${widget.test}');
   }
 
   @override
@@ -110,12 +109,9 @@ class _TestCardState extends State<TestCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18.0),
       child: Container(
-          margin: EdgeInsets.only(right: 15),
-          padding: EdgeInsets.only(left: 5, top: 15),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * .8,
+          margin: const EdgeInsets.only(right: 15),
+          padding: const EdgeInsets.only(left: 5, top: 15),
+          width: MediaQuery.of(context).size.width * .8,
           height: 250,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -125,7 +121,7 @@ class _TestCardState extends State<TestCard> {
                 color: Colors.grey.withOpacity(0.4),
                 spreadRadius: 1,
                 blurRadius: 1,
-                offset: Offset(1, 1), // changes position of shadow
+                offset: const Offset(1, 1), // changes position of shadow
               ),
             ],
           ),
@@ -140,7 +136,7 @@ class _TestCardState extends State<TestCard> {
                     child: AvatarImagePD(widget.test["image"] ??
                         'https://images.unsplash.com/photo-1625498542602-6bfb30f39b3f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
@@ -148,57 +144,81 @@ class _TestCardState extends State<TestCard> {
                     children: [
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.local_hospital,
                             color: Colors.blue,
                             size: 26,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
-                            widget.test["test_name"] ?? '',
+                            widget.test["test_name"].length > 15
+                                ? widget.test["test_name"].substring(0, 15) +
+                                    '...'
+                                : widget.test["test_name"] ?? '',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          widget.status == 2 ? Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 4.0),
-                                child: Text(
-                                  'Patient Name: ',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                widget.test["member_name"] == '' ? widget
-                                    .test["patient_name"] : widget
-                                    .test["member_name"],
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ) : Container(),
-                          SizedBox(
+                          widget.status == 2
+                              ? Row(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 4.0),
+                                      child: Text(
+                                        'Patient Name: ',
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      widget.test["member_name"] == ''
+                                          ? (widget.test["patient_name"]
+                                                      .toString()
+                                                      .length >
+                                                  20
+                                              ? '${widget.test["patient_name"]
+                                                      .toString()
+                                                      .substring(0, 20)}...'
+                                              : widget.test["patient_name"]
+                                                      .toString() ??
+                                                  '')
+                                          : (widget.test["member_name"]
+                                          .toString()
+                                          .length >
+                                          20
+                                          ? '${widget.test["member_name"]
+                                          .toString()
+                                          .substring(0, 20)}...'
+                                          : widget.test["member_name"]
+                                          .toString() ??
+                                          ''),
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.info,
                                 color: Colors.redAccent,
@@ -214,11 +234,11 @@ class _TestCardState extends State<TestCard> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Row(
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.watch_later_outlined,
                                 color: Colors.redAccent,
@@ -234,13 +254,13 @@ class _TestCardState extends State<TestCard> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           Container(
                             child: ClipRRect(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
+                                    BorderRadius.all(Radius.circular(10)),
                                 child: Container(
                                   width: 120,
                                   height: 30,
@@ -250,14 +270,18 @@ class _TestCardState extends State<TestCard> {
                                     children: <Widget>[
                                       Column(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Text(
-                                            'Fees: ${'₹'} ${widget.test["fees"]
-                                                .toString() ?? ''}',
-                                            style: TextStyle(
+                                            'Fees: ${'₹'} ${widget.test["fees"].toString().length>5 ? '${widget.test["fees"]
+                                                .toString()
+                                                .substring(0, 5)}...'
+                                                : widget.test["fees"]
+                                                .toString() ??
+                                                ''}',
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500,
                                                 color: Colors.white),
@@ -274,76 +298,67 @@ class _TestCardState extends State<TestCard> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Divider(),
+              const Divider(),
               widget.status == 2
                   ? SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * .7,
-                height: 45,
-                child: Container(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _showDialog(
-                          widget.test["id"].toString());
-                      // deleteLabTest(widget.test["id"].toString());
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                        textStyle: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold)),
-                    child: deleteTestFlag
-                        ? Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                      width: MediaQuery.of(context).size.width * .7,
+                      height: 45,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _showDialog(widget.test["id"].toString());
+                          // deleteLabTest(widget.test["id"].toString());
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.blue,
+                            textStyle: const TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold)),
+                        child: deleteTestFlag
+                            ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text(
+                                'Cancel',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
                       ),
                     )
-                        : Text(
-                      'Cancel',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                  ),
-                ),
-              )
                   : SizedBox(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * .7,
-                height: 45,
-                child: Container(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // bookLabTest(widget.test["id"].toString());
-                      _modalMenu(widget.test["test_name"] ?? '');
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                        textStyle: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold)),
-                    child: bookTestFlag
-                        ? Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                      width: MediaQuery.of(context).size.width * .7,
+                      height: 45,
+                      child: Container(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // bookLabTest(widget.test["id"].toString());
+                            _modalMenu(widget.test["test_name"] ?? '');
+                          },
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.blue,
+                              textStyle: const TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold)),
+                          child: bookTestFlag
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  bookTestFlag ? 'loading..' : 'Book',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                        ),
                       ),
                     )
-                        : Text(
-                      bookTestFlag ? 'loading..' : 'Book',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                  ),
-                ),
-              )
             ],
           )),
     );
@@ -361,7 +376,6 @@ class _TestCardState extends State<TestCard> {
       },
     );
   }
-
 
   _showDialog(String id) {
     return AwesomeDialog(
@@ -386,9 +400,7 @@ class _TestCardState extends State<TestCard> {
         deleteLabTest(id);
       },
       btnOkText: 'Yes',
-      btnCancelOnPress: () {
-      },
+      btnCancelOnPress: () {},
     ).show();
   }
-
 }

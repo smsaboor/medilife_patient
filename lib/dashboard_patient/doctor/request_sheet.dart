@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
-import 'package:medilife_patient/dashboard_patient/data/json.dart';
-import 'package:medilife_patient/dashboard_patient/data/members.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:medilife_patient/dashboard_patient/family_members/add_new_member.dart';
 import 'package:medilife_patient/dashboard_patient/doctor/booking_screen.dart';
 import 'package:flutter/material.dart';
@@ -50,39 +48,6 @@ class _RequestSheetState extends State<RequestSheet> {
   String? textLanguages = '';
   var fetchUserData;
   bool flagAccess = true;
-
-  // Future<void> getSelectedSymtoms() async {
-  //   var API = 'https://cabeloclinic.com/website/medlife/php_auth_api/symptoms_api.php';
-  //   http.Response response = await http
-  //       .post(Uri.parse(API))
-  //       .then((value) => value)
-  //       .catchError((error) => print(" Failed to getAllPills $error"));
-  //   modelSymptoms2!.clear();
-  //   if (response.statusCode == 200) {
-  //     fetchUserData = jsonDecode(response.body.toString());
-  //     if (textLanguages!.length == 0) {
-  //       print(
-  //           '5.2.......................${fetchUserData[0]['symptoms_name']}.......}');
-  //       textLanguages = fetchUserData[0]['symptoms_name'].toString();
-  //       String firstTextL = textLanguages!;
-  //       String finalStringL = firstTextL
-  //           .replaceAll("[", "")
-  //           .replaceAll("]", "")
-  //           .replaceAll(" ", "");
-  //       final splitedTextL = finalStringL.split(',');
-  //       if (textLanguages!.length == 0) {
-  //         print(
-  //             '5........................${modelSymptoms1![0]['symptoms_name']}.......}');
-  //         modelSymptoms1 = [];
-  //       } else {
-  //         for (int i = 0; i < splitedTextL.length; i++) {
-  //           print('77777getUserData777777755$i--${splitedTextL[i].toString()}');
-  //           modelSymptoms1!.add(splitedTextL[i].toString());
-  //         }
-  //       }
-  //     } else {}
-  //   }
-  // }
 
   Future<void> getMembers() async {
     var API = 'member_list_api.php';
@@ -155,22 +120,21 @@ class _RequestSheetState extends State<RequestSheet> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getSelectedSymtoms();
     getMembers();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: 5),
+      padding: const EdgeInsets.only(bottom: 5),
       scrollDirection: Axis.horizontal,
-      child: Container(
+      child: SizedBox(
         height: 240,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
@@ -180,7 +144,7 @@ class _RequestSheetState extends State<RequestSheet> {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .65,
-                    child: Text('Select Member',
+                    child: const Text('Select Member',
                         style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
@@ -193,14 +157,14 @@ class _RequestSheetState extends State<RequestSheet> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: Colors.red,
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.w500)),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (_) => AddMemberPD(
                                     patientID: widget.patient['user_id'])));
                           },
-                          child: Text('+ Add')),
+                          child: const Text('+ Add')),
                     ),
                   )
                 ],
@@ -208,15 +172,15 @@ class _RequestSheetState extends State<RequestSheet> {
             ),
             Row(children: [
               membersF
-                  ? CircularProgressIndicator()
-                  : Container(
+                  ? const CircularProgressIndicator()
+                  : SizedBox(
                       height: 130,
                       child: FutureBuilder(
                           future: getMembers(),
                           builder: (context, snapshot) {
                             return ListView.builder(
                                 shrinkWrap: true,
-                                physics: ScrollPhysics(),
+                                physics: const ScrollPhysics(),
                                 itemCount: members.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
@@ -240,24 +204,26 @@ class _RequestSheetState extends State<RequestSheet> {
                                                 .15,
                                             child: CircleAvatar(
                                               backgroundColor:
-                                                  Color(0xff125ace),
+                                                  const Color(0xff125ace),
                                               child: Text(
-                                                members[index]
-                                                        ['Patient_name']![0]
+                                                members[index]['Patient_name']![0]
                                                     .toUpperCase(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 34,
                                                     color: Colors.white),
                                               ), //Text
                                             ), //circleAvatar,
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 10,
                                           ),
                                           Text(
-                                            members[index]['Patient_name']!
-                                                .toUpperCase(),
-                                            style: TextStyle(
+                                            members[index]['Patient_name'].length > 10 ?
+                                            members[index]['Patient_name'].substring(0, 10)+'...' :
+                                            members[index]['Patient_name'] ?? '',
+                                            // members[index]['Patient_name']!
+                                            //     .toUpperCase(),
+                                            style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.black),
                                           ),
@@ -282,15 +248,15 @@ class _RequestSheetState extends State<RequestSheet> {
                                 });
                           }),
                     ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               membersF?
-                  Container():Container(
+                  Container():SizedBox(
                       height: 150,
                       child: ListView.builder(
                           shrinkWrap: true,
-                          physics: ScrollPhysics(),
+                          physics: const ScrollPhysics(),
                           itemCount: members[0]['members'].length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
@@ -322,42 +288,29 @@ class _RequestSheetState extends State<RequestSheet> {
                                           MediaQuery.of(context).size.width *
                                               .15,
                                       child: CircleAvatar(
-                                        backgroundColor: Color(0xff125ace),
+                                        backgroundColor: const Color(0xff125ace),
                                         child: Text(
                                           members[0]['members'][index]
                                                   ['name']![0]
                                               .toUpperCase(),
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 34,
                                               color: Colors.white),
                                         ), //Text
                                       ), //circleAvatar,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Text(
-                                      members[0]['members'][index]['name']!
-                                          .toUpperCase(),
-                                      style: TextStyle(
+                                      members[0]['members'][index]['name'].length > 14 ?
+                                      members[0]['members'][index]['name'].substring(0, 15)+'...' :
+                                      members[0]['members'][index]['name'] ?? '',
+                                      // members[0]['members'][index]['name']!
+                                      //     .toUpperCase(),
+                                      style: const TextStyle(
                                           fontSize: 14, color: Colors.black),
                                     ),
-                                    // SizedBox(
-                                    //   height: 5,
-                                    // ),
-                                    // SizedBox(
-                                    //   width: 50,
-                                    //   height: 25,
-                                    //   child: ElevatedButton(
-                                    //       style: ElevatedButton.styleFrom(
-                                    //           primary: Colors.red,
-                                    //          ),
-                                    //       onPressed: () {
-                                    //         _showDialog(
-                                    //             members[0]['members'][index]['member_id']);
-                                    //       },
-                                    //       child: Text('Delete',style: TextStyle(fontSize: 8),)),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -370,7 +323,7 @@ class _RequestSheetState extends State<RequestSheet> {
                           }),
                     ),
             ]),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
           ],

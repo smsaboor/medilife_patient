@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medilife_patient/core/custom_form_field.dart';
+import 'package:flutter_package1/CustomFormField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePasswordPD extends StatefulWidget {
@@ -9,14 +9,8 @@ class ChangePasswordPD extends StatefulWidget {
 }
 
 class _ChangePasswordPDState extends State<ChangePasswordPD> {
-  TextEditingController _controllerMobileNumber = TextEditingController();
-  TextEditingController _controllerAccountHolder = TextEditingController();
-  TextEditingController _controllerBankName = TextEditingController();
-  TextEditingController _controllerAccountNumber = TextEditingController();
-  TextEditingController _controllerConfirmAccountNumber =
-  TextEditingController();
-  TextEditingController _controllerIFSC = TextEditingController();
-
+  final TextEditingController _controllerMobileNumber = TextEditingController();
+  final TextEditingController _controllerAccountHolder = TextEditingController();
   String? name = ' ';
   String? number;
 
@@ -37,7 +31,7 @@ class _ChangePasswordPDState extends State<ChangePasswordPD> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text('Change Password'),
+        title: const Text('Change Password'),
         centerTitle: true,
         leading: Builder(
           builder: (BuildContext context) {
@@ -59,7 +53,7 @@ class _ChangePasswordPDState extends State<ChangePasswordPD> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Center(
               child: Container(
                   width: MediaQuery.of(context).size.width * .95,
@@ -80,11 +74,7 @@ class _ChangePasswordPDState extends State<ChangePasswordPD> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Padding(
-                      //   padding: const EdgeInsets.fromLTRB(8, 8, 0, 15),
-                      //   child: TitleText(text: ' Profile Details'),
-                      // ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CustomFormField(
@@ -93,8 +83,10 @@ class _ChangePasswordPDState extends State<ChangePasswordPD> {
                           errorMsg: 'Enter Your Old Password',
                           labelText: 'Old Password',
                           icon: Icons.lock_open,
+                          maxLimit: 8,
+                          maxLimitError: '8',
                           textInputType: TextInputType.number),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CustomFormField(
@@ -103,38 +95,40 @@ class _ChangePasswordPDState extends State<ChangePasswordPD> {
                           errorMsg: 'Enter Your New Password',
                           labelText: 'New Password',
                           icon: Icons.lock_clock,
+                          maxLimit: 8,
+                          maxLimitError: '8',
                           textInputType: TextInputType.text),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       CustomFormField(
                           readOnly: false,
                           controlller: _controllerAccountHolder,
-                          errorMsg: 'Enter Confirem Password',
+                          errorMsg: 'Enter Confirm Password',
                           labelText: 'Confirm Password',
                           icon: Icons.lock_clock,
+                          maxLimit: 8,
+                          maxLimitError: '8',
                           textInputType: TextInputType.text),
-                      SizedBox(
+                      const SizedBox(
                         height: 40,
                       ),
                       Center(
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * .87,
                           height: 60,
-                          child: Container(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  primary: Color(0xffe3075f),
-                                  textStyle: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold)),
-                              child: Text(
-                                "Change",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                                primary: const Color(0xffe3075f),
+                                textStyle: const TextStyle(
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold)),
+                            child: const Text(
+                              "Change",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                           ),
                         ),
@@ -142,13 +136,6 @@ class _ChangePasswordPDState extends State<ChangePasswordPD> {
                     ],
                   )),
             ),
-            // Container(
-            //   width: double.infinity,
-            //   height: 50,
-            //   decoration:
-            //   BoxDecoration(border: Border.all(color: Colors.blueAccent),color: Colors.white),
-            //   child: Center(child: Text('कम से कम १०० रुपए डाल सकते हैं। ',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.redAccent),)),
-            // ),
           ],
         ),
       ),
@@ -158,7 +145,7 @@ class _ChangePasswordPDState extends State<ChangePasswordPD> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 1.0, color: Colors.black26),
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
           Radius.circular(5.0) //                 <--- border radius here
       ),
     );

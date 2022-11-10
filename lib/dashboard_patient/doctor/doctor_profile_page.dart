@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:medilife_patient/core/constants.dart';
 import 'package:medilife_patient/dashboard_patient/doctor/request_sheet.dart';
 import 'package:medilife_patient/dashboard_patient/theme/colors.dart';
@@ -46,7 +45,6 @@ class _DoctorProfilePagePDState extends State<DoctorProfilePagePD> {
         .catchError((error) => print(" Failed to getLogin: $error"));
     if (response.statusCode == 200) {
       liveConsult = jsonDecode(response.body.toString());
-      print('getLiveConsult----------${liveConsult}');
       if (mounted) {
         setState(() {
           liveConsultF = false;
@@ -57,117 +55,14 @@ class _DoctorProfilePagePDState extends State<DoctorProfilePagePD> {
     } else {}
   }
 
-  Future<void> getlastBooking() async {
-    var API = 'last_booking_number_api.php';
-    Map<String, dynamic> body = {'doctor_id': widget.doctor['id']};
-    http.Response response = await http
-        .post(Uri.parse(API_BASE_URL + API), body: body)
-        .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
-    if (response.statusCode == 200) {
-      lastBooking = jsonDecode(response.body.toString());
-      if (mounted) {
-        setState(() {
-          lastBookingF = false;
-        });
-        getCertificate();
-      }
-    } else {}
-  }
-
-  Future<void> getCertificate() async {
-    var API = 'doctor_certificate_api.php';
-    Map<String, dynamic> body = {'doctor_id': widget.doctor['id']};
-    http.Response response = await http
-        .post(Uri.parse(API_BASE_URL + API), body: body)
-        .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
-    if (response.statusCode == 200) {
-      certificate = jsonDecode(response.body.toString());
-      if (mounted) {
-        setState(() {
-          certificateF = false;
-        });
-      }
-      getsuccesfulPatient();
-    } else {}
-  }
-
-  Future<void> getsuccesfulPatient() async {
-    var API = 'successfully_patient_api.php';
-    // print('-----------------------${widget.doctor['id']}');
-    Map<String, dynamic> body = {'doctor_id': widget.doctor['id']};
-    http.Response response = await http
-        .post(Uri.parse(API_BASE_URL + API), body: body)
-        .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
-    if (response.statusCode == 200) {
-      succesfulPatient = jsonDecode(response.body.toString());
-      if (mounted) {
-        setState(() {
-          succesfulPatientF = false;
-        });
-      }
-      getsuccesfulOT();
-      // print('Response saboor--------------------------${succesfulPatient}');
-    } else {}
-  }
-
-  Future<void> getsuccesfulOT() async {
-    var API = 'doctor_operations_api.php';
-    Map<String, dynamic> body = {'doctor_id': widget.doctor['id']};
-    http.Response response = await http
-        .post(Uri.parse(API_BASE_URL + API), body: body)
-        .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
-    if (response.statusCode == 200) {
-      successfullOT = jsonDecode(response.body.toString());
-      if (mounted) {
-        setState(() {
-          successfullOTF = false;
-        });
-      }
-      getExperience();
-      // print('Response saboor-successfullOT-------------------------${successfullOT}');
-    } else {}
-  }
-
-  Future<void> getExperience() async {
-    var API = 'doctor_experience_api.php';
-    Map<String, dynamic> body = {'doctor_id': widget.doctor['id']};
-    http.Response response = await http
-        .post(Uri.parse(API_BASE_URL + API), body: body)
-        .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
-    if (response.statusCode == 200) {
-      experience = jsonDecode(response.body.toString());
-      if (mounted) {
-        setState(() {
-          experienceF = false;
-          allLodingF=false;
-        });
-      }
-
-      // print('Response saboor-successfullOT-------------------------${successfullOT}');
-    } else {}
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getLiveConsult();
-    // getlastBooking();
-    // getsuccesfulPatient();
-    // getCertificate();
-    // getsuccesfulOT();
-    // getsuccesfulPatient();
-    // getLiveConsult();
-    // getExperience();
   }
 
   void _modalMenu() {
-    print('_modalMenu---${widget.doctor}--${widget.patient}----------toString()}');
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -195,25 +90,25 @@ getScafold()async{
   }
 
   getBody2(){
-    return Scaffold(body: Center(child: CircularProgressIndicator(),),);
+    return const Scaffold(body: Center(child: CircularProgressIndicator(),),);
   }
   getBody() {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Doctor's Profile",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 15, right: 15),
+        padding: const EdgeInsets.only(left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Row(
@@ -231,71 +126,71 @@ getScafold()async{
                     children: [
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.local_hospital,
                             color: Colors.blue,
                             size: 26,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
-                          Text(widget.doctor['clinic_name'].toString(),
-                              style: TextStyle(
+                          Text(widget.doctor["clinic_name"].length > 20 ?
+                          widget.doctor["clinic_name"].substring(0, 20)+'...' :
+                          widget.doctor["clinic_name"] ?? '',
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.w700)),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
-                      Text('Dr. ${widget.doctor['doctor_name'].toString()}',
-                          style: TextStyle(
+                      Text('Dr. ${widget.doctor["doctor_name"].length > 20 ?
+                      widget.doctor["doctor_name"].substring(0, 20)+'...' :
+                      widget.doctor["doctor_name"] ?? ''}',
+                          style: const TextStyle(
                               fontSize: 17, fontWeight: FontWeight.w500)),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
-                          widget.doctor["degree"]
-                              .toString()
-                              .replaceAll('[', '')
-                              .replaceAll(']', '') ??
-                              '',
-                          style: TextStyle(
+                          widget.doctor["degree"].toString().replaceAll('[', '').replaceAll(']', '').length > 25 ?
+                          '${widget.doctor["degree"].toString().replaceAll('[', '').replaceAll(']', '').substring(0, 25)}...' :
+                          widget.doctor["degree"].toString().replaceAll('[', '').replaceAll(']', '') ??'',
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w400,
                               color: Colors.pink)),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        widget.doctor["specialty"]
-                            .toString()
-                            .replaceAll('[', '')
-                            .replaceAll(']', '') ??
-                            '',
-                        style: TextStyle(color: Colors.black87, fontSize: 14),
+                        widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '').length > 30 ?
+                        '${widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '').substring(0, 30)}...' :
+                        widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '') ??'',
+                        // widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '')  ?? '',
+                        style: const TextStyle(color: Colors.black87, fontSize: 14),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             'Speak: ',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
-                            widget.doctor["languages"]
-                                .toString()
-                                .replaceAll('[', '')
-                                .replaceAll(']', '') ??
-                                '',
-                            style: TextStyle(
+                            widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '').length > 25 ?
+                            '${widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '').substring(0, 25)}...' :
+                            widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '') ??'',
+                            // widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '')  ?? '',
+                            style: const TextStyle(
                                 color: Colors.blueAccent,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500),
@@ -304,62 +199,60 @@ getScafold()async{
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 0.0, top: 5),
-                        child: Container(
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              child: Container(
-                                width: 120,
-                                height: 25,
-                                color: Colors.orange,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: <Widget>[
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          'Fees: ${widget.doctor['doctor_fee']}',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ),
+                        child: ClipRRect(
+                            borderRadius: const BorderRadius.all(Radius.circular(10)),
+                            child: Container(
+                              width: 120,
+                              height: 25,
+                              color: Colors.orange,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: <Widget>[
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        'Fees: ${widget.doctor['doctor_fee']}',
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
                       )
                     ],
                   ),
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.star,
                   size: 18,
                   color: Colors.orangeAccent,
                 ),
-                Icon(
+                const Icon(
                   Icons.star,
                   size: 18,
                   color: Colors.orangeAccent,
                 ),
-                Icon(
+                const Icon(
                   Icons.star,
                   size: 18,
                   color: Colors.orangeAccent,
                 ),
-                Icon(
+                const Icon(
                   Icons.star,
                   size: 18,
                   color: Colors.orangeAccent,
@@ -371,19 +264,19 @@ getScafold()async{
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            Text("4.0 Out of 5.0",
+            const Text("4.0 Out of 5.0",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-            SizedBox(
+            const SizedBox(
               height: 3,
             ),
-            Text(
+            const Text(
               "340 Patients review",
               style: TextStyle(color: Colors.grey, fontSize: 12),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Container(
@@ -395,15 +288,15 @@ getScafold()async{
                   // ContactBox(icon: Icons.videocam_rounded, color: Colors.blue,),
                   Column(
                     children: [
-                      Text("Live Consultant",
+                      const Text("Live Consultant",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Text(
                           "${allLodingF ? '' : liveConsult[0]['current_appointment'].toString()} / ${liveConsultF ? '' : liveConsult[0]['today_booking'].toString()}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: Colors.pink)),
@@ -411,17 +304,19 @@ getScafold()async{
                   ),
                   Column(
                     children: [
-                      Text("Last Booking Number",
+                      const Text("Last Booking Number",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w700)),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Text(
                           allLodingF
                               ? ''
-                              : liveConsult[0]['last_booking_nummber'].toString(),
-                          style: TextStyle(
+                              : liveConsult[0]['last_booking_nummber'].toString()!=null?
+                          liveConsult[0]['last_booking_nummber'].toString():
+                          'No Last Booking',
+                          style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: Colors.pink)),
@@ -430,7 +325,7 @@ getScafold()async{
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -444,7 +339,7 @@ getScafold()async{
                   icon: Icons.groups_rounded,
                   color: Colors.green,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 DoctorInfoBoxPD(
@@ -456,7 +351,7 @@ getScafold()async{
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
@@ -470,7 +365,7 @@ getScafold()async{
                   icon: Icons.bloodtype_rounded,
                   color: Colors.blue,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 DoctorInfoBoxPD(
@@ -485,10 +380,6 @@ getScafold()async{
           ],
         ),
       ),
-
-      // liveConsultF
-      //     ? Center(child: CircularProgressIndicator())
-      //     : getBody(),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
         child: MyButtonPD(

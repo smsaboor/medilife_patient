@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+
 class UpComingAppointments2 extends StatefulWidget {
   UpComingAppointments2({Key? key, required this.doctor}) : super(key: key);
   var doctor;
@@ -41,7 +41,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
             color: Colors.green);
       } else {
         CustomSnackBar.snackBar(
-            context: context, data: 'oops somthing wrong !', color: Colors.red);
+            context: context, data: 'oops something wrong !', color: Colors.red);
       }
     } else {}
   }
@@ -50,8 +50,8 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
   Widget build(BuildContext context) {
     return noAppointment
         ? Container(
-            margin: EdgeInsets.only(right: 15),
-            padding: EdgeInsets.only(left: 5, top: 15),
+            margin: const EdgeInsets.only(right: 15),
+            padding: const EdgeInsets.only(left: 5, top: 15),
             width: MediaQuery.of(context).size.width * .8,
             height: 220,
             decoration: BoxDecoration(
@@ -62,7 +62,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                   color: Colors.grey.withOpacity(0.4),
                   spreadRadius: 1,
                   blurRadius: 1,
-                  offset: Offset(1, 1), // changes position of shadow
+                  offset: const Offset(1, 1), // changes position of shadow
                 ),
               ],
             ),
@@ -77,8 +77,8 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
             ),
           )
         : Container(
-            margin: EdgeInsets.only(right: 15),
-            padding: EdgeInsets.only(left: 5, top: 15),
+            margin: const EdgeInsets.only(right: 15),
+            padding: const EdgeInsets.only(left: 5, top: 15),
             width: MediaQuery.of(context).size.width * .8,
             height: 230,
             decoration: BoxDecoration(
@@ -89,7 +89,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                   color: Colors.grey.withOpacity(0.4),
                   spreadRadius: 1,
                   blurRadius: 1,
-                  offset: Offset(1, 1), // changes position of shadow
+                  offset: const Offset(1, 1), // changes position of shadow
                 ),
               ],
             ),
@@ -97,7 +97,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
               children: [
                 Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Column(
@@ -105,9 +105,9 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                       children: [
                         Row(
                           children: [
-                            Padding(
+                            const Padding(
                               padding:
-                                  const EdgeInsets.only(left: 8.0, right: 5),
+                                  EdgeInsets.only(left: 8.0, right: 5),
                               child: Icon(
                                 Icons.local_hospital,
                                 color: Colors.blue,
@@ -116,25 +116,25 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                             ),
                             Text(
                               'Dr. ${widget.doctor['doctor_name'] ?? 'fail'}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
-                        Divider(height: 2),
+                        const Divider(height: 2),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 10.0, bottom: 4, top: 5),
                           child: Row(
                             children: [
-                              Text(
+                              const Text(
                                 'Patient Name: ',
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w500),
                               ),
                               Text(
                                 '${widget.doctor['member_name'] == null ? widget.doctor['patient_name'] : widget.doctor['member_name']}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.redAccent),
@@ -146,20 +146,20 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                           padding: const EdgeInsets.only(left: 10.0),
                           child: Row(
                             children: [
-                              Text(
-                                'Symtoms: ',
+                              const Text(
+                                'Symptoms: ',
                                 style: TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w300),
                               ),
                               Text(
                                 '${widget.doctor['symptoms']}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w300),
                               ),
                             ],
                           ),
                         ),
-                        Divider(
+                        const Divider(
                           height: 2,
                         ),
                         Row(
@@ -170,7 +170,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Apmnt No.",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -183,7 +183,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                                     widget.doctor['appointment_no'] ?? 'fail',
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.red,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
@@ -196,7 +196,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                               padding: const EdgeInsets.only(left: 150),
                               child: Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Date & Time",
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -208,7 +208,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                                   Text(
                                     widget.doctor['date'] ?? 'fail',
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600),
@@ -216,7 +216,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                                   Text(
                                     widget.doctor['booking_slot'] ?? 'fail',
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600),
@@ -230,13 +230,13 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Align(
                   alignment: Alignment.center,
                   child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                       child: Container(
                         width: MediaQuery.of(context).size.width * .3,
                         height: 25,
@@ -251,7 +251,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Status: ',
                                       style: TextStyle(
                                           fontSize: 13,
@@ -260,7 +260,7 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                                     ),
                                     Text(
                                       widget.doctor['status'] ?? 'fail',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
                                           color: Colors.white),
@@ -273,56 +273,31 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
                         ),
                       )),
                 ),
-                SizedBox(height: 8,),
+                const SizedBox(height: 8,),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * .7,
                   height: 45,
-                  child: Container(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _showDialog(
-                            widget.doctor["id"].toString());
-                        // showDialog(
-                        //     context: context,
-                        //     builder: (_) {
-                        //       // return AlertDialog(
-                        //       //   title: Center(child: Text('Delete Confirmation ?')),
-                        //       //   content: Container(
-                        //       //     height: 60,
-                        //       //     width: MediaQuery.of(context).size.width*.7,
-                        //       //     child: Text('Are you confirm to delete.'),
-                        //       //   ),
-                        //       //   actions: <Widget>[
-                        //       //     ElevatedButton(
-                        //       //       child: Text('Ok'),
-                        //       //       onPressed: (){
-                        //       //         deleteLabTest(widget.doctor["id"].toString());
-                        //       //       },
-                        //       //     ),
-                        //       //     ElevatedButton(
-                        //       //         child: Text('cancel'),
-                        //       //         onPressed: () => Navigator.pop(context))
-                        //       //   ],
-                        //       // );
-                        //     });
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
-                          textStyle: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold)),
-                      child: deleteTestFlag
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                              ),
-                            )
-                          : Text(
-                              'Cancel',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _showDialog(
+                          widget.doctor["id"].toString());
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.blue,
+                        textStyle: const TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.bold)),
+                    child: deleteTestFlag
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
                             ),
-                    ),
+                          )
+                        : const Text(
+                            'Cancel',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
                   ),
                 )
               ],
@@ -344,14 +319,15 @@ class _UpComingAppointments2State extends State<UpComingAppointments2> {
       animType: AnimType.LEFTSLIDE,
       headerAnimationLoop: false,
       showCloseIcon: true,
-      title: 'Delete',
+      title: 'Cancel',
       dismissOnTouchOutside: true,
       dismissOnBackKeyPress: false,
-      desc: 'Are You Confirm to delete.',
+      desc: 'Are You Confirm to Cancel.',
       btnOkOnPress: () async {
         deleteLabTest(id);
       },
       btnOkText: 'Yes',
+      btnCancelText: 'No',
       btnCancelOnPress: () {
       },
     ).show();

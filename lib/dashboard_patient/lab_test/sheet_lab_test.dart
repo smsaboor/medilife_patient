@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-
-import 'package:medilife_patient/core/custom_snackbar.dart';
-import 'package:medilife_patient/dashboard_patient/doctor/payment_mode.dart';
-import 'package:medilife_patient/dashboard_patient/theme/colors.dart';
-import 'package:medilife_patient/dashboard_patient/widgets/mybutton.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:multiselect_formfield/multiselect_formfield.dart';
-
 import 'package:medilife_patient/core/constants.dart';
 
 class ModelMember {
@@ -63,7 +56,6 @@ class _SheetLabTestState extends State<SheetLabTest> {
         .catchError((error) => print(" Failed to getLogin: $error"));
     if (response.statusCode == 200) {
       members = jsonDecode(response.body.toString());
-      // print('..getAllMemberss....${response.body}');
       if (mounted) {
         setState(() {
           membersF = false;
@@ -72,7 +64,7 @@ class _SheetLabTestState extends State<SheetLabTest> {
     } else {}
   }
 
-  Future<void> getAllMemberss() async {
+  Future<void> getAllMembers() async {
     var API = 'member_list_api.php';
     Map<String, dynamic> body = {'patient_id': widget.patientId};
     http.Response response = await http
@@ -102,18 +94,6 @@ class _SheetLabTestState extends State<SheetLabTest> {
           selectedMember2 = pillss[0];
         });
       }
-      // for (int i = 0; i < members[0]['members'].length; i++) {
-      //   pillss.add(
-      //     ModelMember(
-      //         name: members[0]['members'][i]['name'],
-      //         relation: members[0]['members'][i]['relation']),
-      //   );
-      // }
-      // for (int i = 0; i < pillss.length; i++) {
-      //   print('////////////////////${pillss[i].name}---${pillss[i].relation}');
-      //   selectedMember = '${pillss[0].name} (${pillss[0].relation})';
-      //   memberList.add('${pillss[i].name} (${pillss[i].relation})');
-      // }
       if (mounted) {
         setState(() {});
       }
@@ -134,11 +114,11 @@ class _SheetLabTestState extends State<SheetLabTest> {
     // TODO: implement initState
     super.initState();
     // getMembers();
-    getAllMemberss();
+    getAllMembers();
   }
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _controllerDate = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _controllerDate = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +131,7 @@ class _SheetLabTestState extends State<SheetLabTest> {
             AppBar(
               backgroundColor: Colors.white,
               leading: GestureDetector(
-                child: Icon(
+                child: const Icon(
                   Icons.cancel,
                   color: Colors.black,
                 ),
@@ -161,7 +141,7 @@ class _SheetLabTestState extends State<SheetLabTest> {
               ),
               title: Text(
                 '${widget.testName}',
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
               elevation: 0,
               centerTitle: true,
@@ -169,7 +149,7 @@ class _SheetLabTestState extends State<SheetLabTest> {
             Center(
               child: Text(
                 'Select Date & Patient Name for ${widget.testName}',
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.redAccent,
                     fontSize: 14,
                     fontWeight: FontWeight.w300),
@@ -188,22 +168,22 @@ class _SheetLabTestState extends State<SheetLabTest> {
                       controller: _controllerDate,
                       //editable: false,
                       validator: (value) {
-                        if (_controllerDate.text.length == 0) {
+                        if (_controllerDate.text.isEmpty) {
                           return 'Select Booking Date';
                         }
                         return null;
                       },
-                      decoration: new InputDecoration(
+                      decoration:  const InputDecoration(
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.red, width: 1.0),
                         ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: const BorderSide(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
                               color: Colors.black26, width: 1.0),
                         ),
-                        border: const OutlineInputBorder(),
+                        border: OutlineInputBorder(),
                         labelText: 'Select Booking Date',
-                        labelStyle: const TextStyle(
+                        labelStyle: TextStyle(
                           fontSize: 14.0,
                         ),
                       ),
@@ -213,15 +193,15 @@ class _SheetLabTestState extends State<SheetLabTest> {
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate:
-                              DateTime.now().subtract(new Duration(days: 0)),
-                          lastDate: DateTime.now().add(new Duration(days: 180)),
+                              DateTime.now().subtract( const Duration(days: 0)),
+                          lastDate: DateTime.now().add( const Duration(days: 180)),
                         );
                       },
                       onChanged: (dt) {
                         if (mounted) {
                           setState(() {
-                            _controllerDate.text = new DateFormat("yyyy-MM-dd")
-                                .format(dt?.add(new Duration(days: 354)) ??
+                            _controllerDate.text =  DateFormat("yyyy-MM-dd")
+                                .format(dt?.add( const Duration(days: 354)) ??
                                 DateTime.now());
                           });
                         }
@@ -232,7 +212,7 @@ class _SheetLabTestState extends State<SheetLabTest> {
               ),
             ),
             Theme(
-              data: new ThemeData(
+              data: ThemeData(
                 primaryColor: Colors.redAccent,
                 primaryColorDark: Colors.red,
               ),
@@ -268,39 +248,35 @@ class _SheetLabTestState extends State<SheetLabTest> {
                           selectedMember2 = spec;
                         });
                       }
-                      print('------------------${spec!.name}');
-                      print('------------------${spec!.id}');
                     }),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width * .7,
               height: 45,
-              child: Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    addAppointment(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.blue,
-                      textStyle:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                  child: bookNowF
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(
-                          'Book Now',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
+              child: ElevatedButton(
+                onPressed: () {
+                  addAppointment(context);
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    textStyle:
+                        const TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                child: bookNowF
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
                         ),
-                ),
+                      )
+                    : const Text(
+                        'Book Now',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
               ),
             )
           ],
@@ -312,7 +288,7 @@ class _SheetLabTestState extends State<SheetLabTest> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 1.0, color: Colors.black26),
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
           Radius.circular(5.0) //                 <--- border radius here
           ),
     );
@@ -330,8 +306,7 @@ class _SheetLabTestState extends State<SheetLabTest> {
         addLabTestF = true;
       });
     }
-    var API =
-        'https://cabeloclinic.com/website/medlife/php_auth_api/add_lab_test_api.php';
+    var API = '${API_BASE_URL}add_lab_test_api.php';
     Map<String, dynamic> body = {
       'patient_id': widget.patientId,
       'member_id': widget.patientId == selectedMember2!.id
@@ -357,7 +332,8 @@ class _SheetLabTestState extends State<SheetLabTest> {
             addLabTestF = false;
           });
         }
-        Navigator.pop(context);
+        if (!mounted) return;
+        Navigator.of(context).pop();
       } else {
         CustomSnackBar.snackBar(
             context: context, data: 'Booking Failed !', color: Colors.red);

@@ -1,10 +1,5 @@
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medilife_patient/core/constants.dart';
-import 'avatar_image.dart';
-import 'package:http/http.dart' as http;
+import 'package:medilife_patient/core/constatnts/urls.dart';
 
 class PopularDoctorPD extends StatefulWidget {
   PopularDoctorPD({Key? key, required this.doctor}) : super(key: key);
@@ -15,7 +10,6 @@ class PopularDoctorPD extends StatefulWidget {
 }
 
 class _PopularDoctorPDState extends State<PopularDoctorPD> {
-
 @override
   void initState() {
     // TODO: implement initState
@@ -24,11 +18,10 @@ class _PopularDoctorPDState extends State<PopularDoctorPD> {
   }
   @override
   Widget build(BuildContext context) {
-    // print('saboor2---------------------${widget.doctor["image"]}');
-    // print('saboor3---------------------${widget.doctor}');
+  print('object----------------------------${widget.doctor["clinic_name"]}');
     return Container(
-        margin: EdgeInsets.only(right: 15),
-        padding: EdgeInsets.only(left: 5, top: 15),
+        margin: const EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.only(left: 5, top: 15),
         width: MediaQuery.of(context).size.width * .8,
         height: MediaQuery.of(context).size.width * .45,
         decoration: BoxDecoration(
@@ -39,7 +32,7 @@ class _PopularDoctorPDState extends State<PopularDoctorPD> {
               color: Colors.grey.withOpacity(0.4),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: const Offset(1, 1), // changes position of shadow
             ),
           ],
         ),
@@ -47,23 +40,18 @@ class _PopularDoctorPDState extends State<PopularDoctorPD> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            Container(
+            SizedBox(
               height: 140,
               width: 110,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: FadeInImage.assetNetwork(
                     placeholder: 'assets/loading.gif',
-                    image: widget.doctor["image"]??'https://images.unsplash.com/photo-1625498542602-6bfb30f39b3f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'
+                    image: widget.doctor["image"]??AppUrls.user
                 ),
               )
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 10.0),
-            //   child: AvatarImagePD(widget.doctor["image"]??'https://images.unsplash.com/photo-1625498542602-6bfb30f39b3f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'),
-            // ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Column(
@@ -71,24 +59,23 @@ class _PopularDoctorPDState extends State<PopularDoctorPD> {
               children: [
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.local_hospital,
                       color: Colors.blue,
                       size: 26,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Text(
-                      widget.doctor["clinic_name"] ?? '',
-                      maxLines: 1,
+                      widget.doctor["clinic_name"].length > 25 ? widget.doctor["clinic_name"].substring(0, 25)+'...' : widget.doctor["clinic_name"] ?? '',
                       overflow: TextOverflow.ellipsis,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                          const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Padding(
@@ -97,37 +84,41 @@ class _PopularDoctorPDState extends State<PopularDoctorPD> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.doctor["doctor_name"] ?? '',
+                        widget.doctor["doctor_name"].length > 25 ? widget.doctor["doctor_name"].substring(0, 25)+'...' : widget.doctor["doctor_name"] ?? '',
+                        // widget.doctor["doctor_name"] ?? '',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(
-                        widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '')  ?? '',
+                        widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '').length > 30 ?
+                        '${widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '').substring(0, 30)}...' : widget.doctor["specialty"].toString().replaceAll('[', '').replaceAll(']', '') ??'',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: Colors.grey),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Text(
-                        widget.doctor["degree"].toString().replaceAll('[', '').replaceAll(']', '')  ?? '',
-                        style: TextStyle(fontSize: 12, color: Colors.black),
+                          widget.doctor["degree"].toString().replaceAll('[', '').replaceAll(']', '').length > 30 ?
+                          '${widget.doctor["degree"].toString().replaceAll('[', '').replaceAll(']', '').substring(0, 30)}...' :
+                          widget.doctor["degree"].toString().replaceAll('[', '').replaceAll(']', '') ??'',
+                        style: const TextStyle(fontSize: 12, color: Colors.black),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             "Speaks: ",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -137,63 +128,47 @@ class _PopularDoctorPDState extends State<PopularDoctorPD> {
                                 color: Colors.blue),
                           ),
                           Text(
-                            widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '')  ?? '',
+                            widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '').length > 28 ?
+                            '${widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '').substring(0, 28)}...' :
+                            widget.doctor["languages"].toString().replaceAll('[', '').replaceAll(']', '') ??'',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black),
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
-                      // Row(
-                      //   children: [
-                      //     Icon(
-                      //       Icons.star,
-                      //       color: Colors.yellow,
-                      //       size: 14,
-                      //     ),
-                      //     SizedBox(
-                      //       width: 2,
-                      //     ),
-                      //     Text(
-                      //       "${doctor["review"]} Review",
-                      //       style: TextStyle(fontSize: 12),
-                      //     )
-                      //   ],
-                      // ),
-                      Container(
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            child: Container(
-                              width: 120,
-                              height: 30,
-                              color: Colors.orange,
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: <Widget>[
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        'Fees: ${widget.doctor["doctor_fee"]??''}',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )),
-                      )
+                      ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          child: Container(
+                            width: 120,
+                            height: 30,
+                            color: Colors.orange,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: <Widget>[
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text(
+                                      'Fees: ${widget.doctor["doctor_fee"]?? ''}',
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ))
                     ],
                   ),
                 )

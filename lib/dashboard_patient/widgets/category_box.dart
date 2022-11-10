@@ -10,8 +10,8 @@ class CategoryBoxPD extends StatelessWidget {
   Widget build(BuildContext context) {
     return  
       Container(
-        margin: EdgeInsets.only(right: 15),
-        padding: EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
+        margin: const EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
@@ -20,7 +20,7 @@ class CategoryBoxPD extends StatelessWidget {
               color: Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: const Offset(1, 1), // changes position of shadow
             ),
           ],
         ),
@@ -28,7 +28,7 @@ class CategoryBoxPD extends StatelessWidget {
         child: Column(
           children: [
             Icon(icon, size: 40, color: color,),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(title, style: TextStyle(color: color),)
           ],
         ) 

@@ -30,7 +30,7 @@ class MyButtonPD extends StatelessWidget {
                     color: Theme.of(context).shadowColor.withOpacity(0.1),
                     spreadRadius: 2,
                     blurRadius: 3,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
               ),
@@ -41,7 +41,7 @@ class MyButtonPD extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: isLoading ?
-                  [SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 3,))] : 
+                  [const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 3,))] :
                   (icon == null) ?
                     [
                       Text(title, style: TextStyle(color: disableButton ? Colors.white.withOpacity(0.3) : Colors.white, fontWeight: FontWeight.w600),)
@@ -49,7 +49,7 @@ class MyButtonPD extends StatelessWidget {
                     :
                     [
                       Icon(icon, size: 23, color: disableButton ? Colors.white.withOpacity(0.3) : Colors.white,),
-                      SizedBox(width: 5,),
+                      const SizedBox(width: 5,),
                       Text(title, style: TextStyle(color: disableButton ? Colors.white.withOpacity(0.3) : Colors.white, fontWeight: FontWeight.w600),)
                     ]
               )

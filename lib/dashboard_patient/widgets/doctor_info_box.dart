@@ -22,7 +22,7 @@ class DoctorInfoBoxPD extends StatelessWidget {
               color: Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: const Offset(1, 1), // changes position of shadow
             ),
           ],
         ),
@@ -30,10 +30,10 @@ class DoctorInfoBoxPD extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: color, size: 40,),
-            SizedBox(height: 7,),
-            Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-            SizedBox(height: 7,),
-            Text(info, style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.w500),)
+            const SizedBox(height: 7,),
+            Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+            const SizedBox(height: 7,),
+            Text(info, style: const TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.w500),)
           ],
         ),
       );

@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MultiSelect Formfield Example'),
+        title: const Text('MultiSelect Form-field Example'),
       ),
       body: Center(
         child: Form(
@@ -41,17 +41,17 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: MultiSelectFormField(
                   autovalidate: AutovalidateMode.disabled,
                   chipBackGroundColor: Colors.blue,
-                  chipLabelStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                  dialogTextStyle: TextStyle(fontWeight: FontWeight.bold),
+                  chipLabelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                  dialogTextStyle: const TextStyle(fontWeight: FontWeight.bold),
                   checkBoxActiveColor: Colors.blue,
                   checkBoxCheckColor: Colors.white,
-                  dialogShapeBorder: RoundedRectangleBorder(
+                  dialogShapeBorder: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(12.0))),
-                  title: Text(
+                  title: const Text(
                     "Languages you speak",
                     style: TextStyle(fontSize: 16),
                   ),
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     return null;
                   },
-                  dataSource: [
+                  dataSource: const [
                     {
                       "language": "Running",
                       "index": "1",
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   valueField: 'index',
                   okButtonLabel: 'OK',
                   cancelButtonLabel: 'CANCEL',
-                  hintWidget: Text('Please select language'),
+                  hintWidget: const Text('Please select language'),
                   initialValue: [],
                   onSaved: (value) {
                     if (value == null) return;
@@ -106,14 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  child: Text('Save'),
                   onPressed: _saveForm,
+                  child: const Text('Save'),
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Text(_myActivitiesResult),
               )
             ],

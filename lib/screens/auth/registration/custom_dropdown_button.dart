@@ -36,7 +36,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20),
       child: Theme(
-        data: new ThemeData(
+        data: ThemeData(
           primaryColor: Colors.redAccent,
           primaryColorDark: Colors.red,
         ),

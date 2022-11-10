@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 
 class DoctorCardList extends StatefulWidget {
   const DoctorCardList({Key? key}) : super(key: key);
-
   @override
   _DoctorCardListState createState() => _DoctorCardListState();
 }
@@ -22,13 +21,13 @@ class _DoctorCardListState extends State<DoctorCardList> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Doctors",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10),
             child: Icon(
               Icons.info,
               color: Colors.grey,
@@ -47,7 +46,7 @@ class _DoctorCardListState extends State<DoctorCardList> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(
-                children: [
+                children: const [
                   Expanded(child: CustomTextBoxPD()),
                   SizedBox(
                     width: 5,
@@ -59,7 +58,7 @@ class _DoctorCardListState extends State<DoctorCardList> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SingleChildScrollView(
@@ -71,15 +70,15 @@ class _DoctorCardListState extends State<DoctorCardList> {
                               padding: const EdgeInsets.only(right: 10),
                               child: Badge(
                                   badgeColor: Colors.green,
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: const BorderSide(color: Colors.white),
                                   position:
                                       BadgePosition.topEnd(top: -3, end: 0),
-                                  badgeContent: Text(''),
+                                  badgeContent: const Text(''),
                                   child: AvatarImagePD(
                                       chatsData[index]["image"].toString())),
                             ))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               getDoctorList()
@@ -87,9 +86,9 @@ class _DoctorCardListState extends State<DoctorCardList> {
   }
 
   getDoctorList() {
-    return new ListView.builder(
+    return ListView.builder(
       shrinkWrap: true,
-      physics: ScrollPhysics(),
+      physics: const ScrollPhysics(),
       itemCount: doctors.length,
       itemBuilder: (BuildContext context, int index) => GestureDetector(
         child: Column(
@@ -99,7 +98,7 @@ class _DoctorCardListState extends State<DoctorCardList> {
             PopularDoctorPD(
               doctor: doctors[index],
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             )
           ],

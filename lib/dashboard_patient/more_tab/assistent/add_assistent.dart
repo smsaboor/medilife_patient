@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/core/custom_form_field.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
+import 'package:flutter_package1/CustomFormField.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:medilife_patient/dashboard_patient/custom_widgtes/app_bar.dart';
 import 'package:medilife_patient/model/model_assistence.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +19,9 @@ class AddAssistent extends StatefulWidget {
 }
 
 class _AddAssistentState extends State<AddAssistent> {
-  final TextEditingController _startDateController =
-      new TextEditingController();
-  final TextEditingController _controllerName = new TextEditingController();
-  final TextEditingController _controllerMobile = new TextEditingController();
+  final TextEditingController _startDateController = TextEditingController();
+  final TextEditingController _controllerName =  TextEditingController();
+  final TextEditingController _controllerMobile =  TextEditingController();
   final TextEditingController _controllerAddress = TextEditingController();
   bool isAssistentAdded = false;
   String? symptoms = 'Morning Empty Stomach';
@@ -43,12 +42,12 @@ class _AddAssistentState extends State<AddAssistent> {
     "Left",
   ];
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: CustomAppBar(
           isleading: false,
@@ -61,7 +60,7 @@ class _AddAssistentState extends State<AddAssistent> {
           children: [
             AppBar(
               backgroundColor: Colors.blue,
-              title: Text("Add Assistent"),
+              title: const Text("Add Assistant"),
             ),
             SizedBox(
               height: 450,
@@ -69,7 +68,7 @@ class _AddAssistentState extends State<AddAssistent> {
               child: Card(
                 elevation: 10,
                 color: Colors.white,
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   side: BorderSide(color: Colors.white),
                 ),
@@ -81,10 +80,12 @@ class _AddAssistentState extends State<AddAssistent> {
                       children: [
                         CustomFormField(
                             controlller: _controllerName,
-                            errorMsg: 'Enter Assistent Name',
-                            labelText: 'Assistent Name',
+                            errorMsg: 'Enter Assistant Name',
+                            labelText: 'Assistant Name',
                             readOnly: false,
                             icon: Icons.person,
+                            maxLimit: 25,
+                            maxLimitError: '25',
                             textInputType: TextInputType.text),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
@@ -94,11 +95,13 @@ class _AddAssistentState extends State<AddAssistent> {
                             labelText: 'Mobile',
                             readOnly: false,
                             icon: Icons.phone_android,
+                            maxLimit: 10,
+                            maxLimitError: '10',
                             textInputType: TextInputType.number),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
                         Theme(
-                          data: new ThemeData(
+                          data:  ThemeData(
                             primaryColor: Colors.redAccent,
                             primaryColorDark: Colors.red,
                           ),
@@ -109,7 +112,6 @@ class _AddAssistentState extends State<AddAssistent> {
                             decoration: myBoxDecoration(),
                             height: 60,
                             width: MediaQuery.of(context).size.width,
-                            //          <// --- BoxDecoration here
                             child: DropdownButton(
                                 // Initial Value
                                 menuMaxHeight:
@@ -127,26 +129,25 @@ class _AddAssistentState extends State<AddAssistent> {
                                     child: Text(items),
                                   );
                                 }).toList(),
-                                // After selecting the desired option,it will
-                                // change button value to selected value
                                 onChanged: (spec) {
                                   if (mounted) {
                                     setState(() {
                                       status = spec.toString();
                                     });
                                   }
-                                  print('------------------${spec}');
                                 }),
                           ),
                         ),
                         CustomFormField(
                             controlller: _controllerAddress,
-                            errorMsg: 'Ente Full Address',
+                            errorMsg: 'Enter Full Address',
                             labelText: 'Address',
                             readOnly: false,
                             icon: Icons.person,
+                            maxLimit: 40,
+                            maxLimitError: '40',
                             textInputType: TextInputType.text),
-                        Divider(
+                        const Divider(
                           color: Colors.black12,
                         ),
                         Padding(
@@ -154,28 +155,26 @@ class _AddAssistentState extends State<AddAssistent> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * .87,
                             height: 50,
-                            child: Container(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _add(context);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue,
-                                    textStyle: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold)),
-                                child: isAssistentAdded
-                                    ? Center(
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    : Text(
-                                        widget.button,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      ),
-                              ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _add(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.blue,
+                                  textStyle: const TextStyle(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold)),
+                              child: isAssistentAdded
+                                  ? const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : Text(
+                                      widget.button,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
                             ),
                           ),
                         )
@@ -200,7 +199,7 @@ class _AddAssistentState extends State<AddAssistent> {
         .catchError(
             (error) => print("doctore assistenet Failed to add: $error"));
     var data = jsonDecode(response.body);
-    print("getRegistration DATA: ${data}");
+    print("getRegistration DATA: $data");
     return data[0]['assistant_name'];
   }
 
@@ -209,14 +208,14 @@ class _AddAssistentState extends State<AddAssistent> {
       setState(() {
         isAssistentAdded = true;
       });
-      String assistant_name = await addAssistent(ModelAssistent(
+      String assistantName = await addAssistent(ModelAssistent(
         assistantName: _controllerName.text.toString(),
         number: _controllerMobile.text.toString(),
         address: _controllerAddress.text.toString(),
         doctorId: widget.doctor_id,
         status: status,
       ));
-      if (assistant_name == _controllerName.text) {
+      if (assistantName == _controllerName.text) {
         CustomSnackBar.snackBar(
             context: context,
             data: 'Added Successfully !',
@@ -224,7 +223,8 @@ class _AddAssistentState extends State<AddAssistent> {
         setState(() {
           isAssistentAdded = false;
         });
-        Navigator.pop(context);
+        if (!mounted) return;
+        Navigator.of(context).pop();
       } else {
         CustomSnackBar.snackBar(
             context: context,
@@ -237,7 +237,7 @@ class _AddAssistentState extends State<AddAssistent> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 1.0, color: Colors.black26),
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
           Radius.circular(5.0) //                 <--- border radius here
           ),
     );

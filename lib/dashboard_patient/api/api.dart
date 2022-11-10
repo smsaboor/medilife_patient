@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'package:medilife_patient/core/constants.dart';
 
 class ApiEditProfiles {
   static var updateProfileData;
@@ -16,8 +16,8 @@ class ApiEditProfiles {
       String? spec,
       String? expe,
       String? address}) async {
-    var API =
-        'https://cabeloclinic.com/website/medlife/php_auth_api/update_profile_api.php';
+    // ignore: non_constant_identifier_names
+    var API = '${API_BASE_URL}update_profile_api.php';
     Map<String, dynamic> body = {
       'doctor_id': doctorid,
       'name': name,
@@ -33,30 +33,22 @@ class ApiEditProfiles {
         .post(Uri.parse(API), body: body)
         .then((value) => value)
         .catchError((error) => print(" Failed to updateProfile: $error"));
-    print('.......updateProfile${response.body}');
     if (response.statusCode == 200) {
-      print(
-          '..updateProfile 22222222222222222222222222222222....${response.body}');
       updateProfileData = jsonDecode(response.body.toString());
-      print(
-          '..updateProfile 22222222222222222222222222222222....${updateProfileData.length ?? 0}');
     } else {}
   }
 
   static bool fetchImageF = true;
 
   static dynamic getImgeUrl(String doctorId) async {
-    print('.......getImgeUrldynamic........................}');
     var fetchImageData;
-    var API = 'https://cabeloclinic.com/website/medlife/php_auth_api/patient_fetch_image_api.php';
+    var API = '${API_BASE_URL}patient_fetch_image_api.php';
     Map<String, dynamic> body = {'patient_id': doctorId};
     http.Response response = await http
         .post(Uri.parse(API), body: body)
         .then((value) => value)
         .catchError((error) => print(" Failed to getAllAssitents: $error"));
-    print('.......333........................${response.body}');
     if (response.statusCode == 200) {
-      print('..22222222222222222222222222222222....${response.body}');
       fetchImageData = jsonDecode(response.body.toString());
       fetchImageF = false;
     } else {}

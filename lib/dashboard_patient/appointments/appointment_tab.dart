@@ -5,7 +5,6 @@ import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class AppointmentTab extends StatefulWidget {
   const AppointmentTab({Key? key}) : super(key: key);
-
   @override
   _AppointmentTabState createState() => _AppointmentTabState();
 }
@@ -35,10 +34,10 @@ class _AppointmentTabState extends State<AppointmentTab> with TickerProviderStat
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                new SliverAppBar(
+                 SliverAppBar(
                   centerTitle: true,
                   leading: GestureDetector(
-                      child: Icon(
+                      child: const Icon(
                         Icons.list_outlined,
                         color: Colors.purple,
                         size: 28,
@@ -51,9 +50,9 @@ class _AppointmentTabState extends State<AppointmentTab> with TickerProviderStat
                           color: Colors.black)),
                   actions: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(right: 6.0),
+                      margin: const EdgeInsets.only(right: 6.0),
                       child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.account_circle,
                           size: 24.0,
                           color: Colors.purple,
@@ -72,7 +71,7 @@ class _AppointmentTabState extends State<AppointmentTab> with TickerProviderStat
                     indicatorColor: Colors.red,
                     isScrollable: false,
                     controller: _tabController,
-                    tabs: [
+                    tabs: const [
                       Tab(
                         text: "Upcoming",
                       ),
@@ -110,28 +109,23 @@ class _AppointmentTabState extends State<AppointmentTab> with TickerProviderStat
   }
 
   Widget _tabBarViewWorld() {
-    debugPrint("in ........................_tabBarView");
-    return TabBarView(controller: _tabController, children: [
+    return TabBarView(controller: _tabController, children: const [
       UpcomingApointments(userData: '1',),
-      Container(
-        child: const Center(
-          child: Text(
-            'Pending Tab ',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
+      Center(
+        child: Text(
+          'Pending Tab ',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      Container(
-        child: const Center(
-          child: Text(
-            'Completed Tab ',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
+      Center(
+        child: Text(
+          'Completed Tab ',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -140,7 +134,7 @@ class _AppointmentTabState extends State<AppointmentTab> with TickerProviderStat
 
   Widget TabBarLocal() {
     return TabBar(
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         fontSize: 13.0,
         fontWeight: FontWeight.bold,
         color: Colors.black,
@@ -150,12 +144,8 @@ class _AppointmentTabState extends State<AppointmentTab> with TickerProviderStat
       indicatorSize: TabBarIndicatorSize.tab,
       indicatorWeight: 4,
       indicatorColor: Colors.amber,
-//      indicator: BoxDecoration(
-//          borderRadius: BorderRadius.only(
-//              topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-//          color: Colors.white70),
       isScrollable: true,
-      tabs: [
+      tabs: const [
         Tab(child: Text('Hot News')),
         Tab(child: Text('Hot News')),
         Tab(child: Text('Hot News')),

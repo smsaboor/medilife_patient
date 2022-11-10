@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:medilife_patient/core/custom_form_field.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
+import 'package:flutter_package1/CustomFormField.dart';
+import 'package:medilife_patient/core/constants.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:medilife_patient/dashboard_patient/widgets/avatar_image.dart';
 import 'package:medilife_patient/dashboard_patient/more_tab/edit_profile/api/api.dart';
 import 'package:medilife_patient/dashboard_patient/more_tab/edit_profile/image.dart';
@@ -13,6 +14,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart' as Dio;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constant.dart';
 
 class EditProfileDD extends StatefulWidget {
@@ -31,15 +33,12 @@ class EditProfileDD extends StatefulWidget {
 class _EditProfileDDState extends State<EditProfileDD> {
   bool? isUserAdded;
   bool updateProfile=false;
-  final TextEditingController _startDateController =
-      new TextEditingController();
-  final TextEditingController _controllerName = new TextEditingController();
-  // final TextEditingController _controllerMobile = new TextEditingController();
-  final TextEditingController _controllerState = new TextEditingController();
-  final TextEditingController _controllerCity = new TextEditingController();
-  final TextEditingController _controllerDistrict = new TextEditingController();
-  final TextEditingController _controllerPincode = new TextEditingController();
-  final TextEditingController _controllerAddress = new TextEditingController();
+  final TextEditingController _controllerName =  TextEditingController();
+  final TextEditingController _controllerState =  TextEditingController();
+  final TextEditingController _controllerCity =  TextEditingController();
+  final TextEditingController _controllerDistrict =  TextEditingController();
+  final TextEditingController _controllerPinCode =  TextEditingController();
+  final TextEditingController _controllerAddress =  TextEditingController();
 
 
   File? _image;
@@ -59,13 +58,12 @@ class _EditProfileDDState extends State<EditProfileDD> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('####---------------${widget.id} ------------${widget.button}  ');
     getUserData();
-    _getImgeUrl(widget.id);
-    imagePicker = new ImagePicker();
+    _getImageUrl(widget.id);
+    imagePicker = ImagePicker();
   }
 
-  void _getImgeUrl(String doctorId) async {
+  void _getImageUrl(String doctorId) async {
     fetchImageData = await ApiEditProfiles.getImgeUrl(doctorId);
     if (fetchImageData[0]['image'] != '') {
       if (mounted) {
@@ -97,7 +95,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
       });
     }
     if (_image != null) {
-      Dio.FormData formData = new Dio.FormData.fromMap({
+      Dio.FormData formData = Dio.FormData.fromMap({
         "patient_id": widget.id,
         "image": await Dio.MultipartFile.fromFile(_image!.path,
             filename: _image!.path.split('/').last)
@@ -106,7 +104,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
       if (result == true) {
         if (mounted) {
           setState(() {
-            _getImgeUrl(widget.id);
+            _getImageUrl(widget.id);
           });
         }
       }
@@ -119,8 +117,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
   }
 
   Future<void> getUserData() async {
-    print('111*****************${widget.id}');
-    var API = 'https://cabeloclinic.com/website/medlife/php_auth_api/patient_fetch_profile_api.php';
+    var API = '${API_BASE_URL}patient_fetch_profile_api.php';
     Map<String, dynamic> body = {
       'patient_id': widget.id,
     };
@@ -128,10 +125,8 @@ class _EditProfileDDState extends State<EditProfileDD> {
         .post(Uri.parse(API), body: body)
         .then((value) => value)
         .catchError((error) => print(" Failed to fetchProfileData: $error"));
-    print('*****************${widget.id}');
     if (response.statusCode == 200) {
       fetchUserData = jsonDecode(response.body.toString());
-      print('*****************${fetchUserData}');
       if (mounted) {
         setState(() {
           _controllerName.text=fetchUserData[0]['patient_name'];
@@ -140,15 +135,14 @@ class _EditProfileDDState extends State<EditProfileDD> {
           stateInitial=fetchUserData[0]['state'];
           _controllerCity.text=fetchUserData[0]['city'];
           _controllerDistrict.text=fetchUserData[0]['district'];
-          _controllerPincode.text=fetchUserData[0]['pincode'];
+          _controllerPinCode.text=fetchUserData[0]['pincode'];
         });
       }
     } else {
-      print('***else**************${widget.id}');
     }
   }
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isEditted = false;
   var stateInitial="Andhra Pradesh";
@@ -195,7 +189,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
     return  Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20),
       child: Theme(
-        data: new ThemeData(
+        data:  ThemeData(
           primaryColor: Colors.redAccent,
           primaryColorDark: Colors.red,
         ),
@@ -206,7 +200,6 @@ class _EditProfileDDState extends State<EditProfileDD> {
           height: 60,
           //
           width: MediaQuery.of(context).size.width,
-          //          <// --- BoxDecoration here
           child: Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: DropdownButton(
@@ -225,8 +218,6 @@ class _EditProfileDDState extends State<EditProfileDD> {
                     child: Text(items),
                   );
                 }).toList(),
-                // After selecting the desired option,it will
-                // change button value to selected value
                 onChanged: (user) {
                   if (mounted) {
                     setState(() {
@@ -244,7 +235,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
     return Scaffold(
       appBar:  AppBar(
         backgroundColor: Colors.blue,
-        title: Text("Edit Profile"),
+        title: const Text("Edit Profile"),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -258,7 +249,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
                 child: Card(
                   elevation: 10,
                   color: Colors.white,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     side: BorderSide(color: Colors.white),
                   ),
@@ -280,7 +271,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
                                     uplaodImage?null:showAlertDialog(context);
                                   },
                                   child: uplaodImage
-                                      ? Center(
+                                      ? const Center(
                                           child: CircularProgressIndicator(),
                                         )
                                       : fetchImageData[0]['image'] != null
@@ -298,8 +289,8 @@ class _EditProfileDDState extends State<EditProfileDD> {
                                   child: Container(
                                     height: kSpacingUnit.w * 2.5,
                                     width: kSpacingUnit.w * 2.5,
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).accentColor,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.amber,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Center(
@@ -326,15 +317,9 @@ class _EditProfileDDState extends State<EditProfileDD> {
                             labelText: 'Patient Name',
                             readOnly: false,
                             icon: Icons.person,
+                            maxLimit: 25,
+                            maxLimitError: '25',
                             textInputType: TextInputType.text),
-                        SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                        // CustomFormField(
-                        //     controlller: _controllerMobile,
-                        //     errorMsg: 'Enter Your Mobile',
-                        //     labelText: 'Mobile',
-                        //     readOnly: true,
-                        //     icon: Icons.phone_android,
-                        //     textInputType: TextInputType.number),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         CustomFormField(
                             controlller: _controllerAddress,
@@ -342,6 +327,8 @@ class _EditProfileDDState extends State<EditProfileDD> {
                             labelText: 'Address',
                             readOnly: false,
                             icon: Icons.home,
+                            maxLimit: 40,
+                            maxLimitError: '40',
                             textInputType: TextInputType.text),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         stateWidget(),
@@ -352,6 +339,8 @@ class _EditProfileDDState extends State<EditProfileDD> {
                             labelText: 'City',
                             readOnly: false,
                             icon: Icons.location_city,
+                            maxLimit: 25,
+                            maxLimitError: '25',
                             textInputType: TextInputType.text),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         CustomFormField(
@@ -359,19 +348,23 @@ class _EditProfileDDState extends State<EditProfileDD> {
                             errorMsg: 'Enter Your District',
                             readOnly: false,
                             labelText: 'District',
+                            maxLimit: 25,
+                            maxLimitError: '25',
                             icon: Icons.location_city_sharp,
                             textInputType: TextInputType.text),
                         SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                         CustomFormField(
-                            controlller: _controllerPincode,
+                            controlller: _controllerPinCode,
                             errorMsg: 'Enter Your Pin',
                             readOnly: false,
                             labelText: 'Pin',
+                            maxLimit: 6,
+                            maxLimitError: '6',
                             icon: Icons.pin,
                             textInputType: TextInputType.number),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01),
-                        Divider(
+                        const Divider(
                           color: Colors.black12,
                         ),
                         Center(
@@ -380,24 +373,21 @@ class _EditProfileDDState extends State<EditProfileDD> {
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * .87,
                               height: 50,
-                              child: Container(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Navigator.of(context).push(MaterialPageRoute(builder: (_)=>MyHomePage()));
-                                    _updateProfile(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.blue,
-                                      textStyle: TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold)),
-                                  child: updateProfile?Center(child: CircularProgressIndicator(),):Text(
-                                    widget.button,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  ),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _updateProfile(context);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.blue,
+                                    textStyle: const TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold)),
+                                child: updateProfile?const Center(child: CircularProgressIndicator(color: Colors.white,),):Text(
+                                  widget.button,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                               ),
                             ),
@@ -418,17 +408,15 @@ class _EditProfileDDState extends State<EditProfileDD> {
   }
 
   showAlertDialog(BuildContext context) {
-    // Create button
     Widget okButton = ElevatedButton(
-      child: Text("OK"),
+      child: const Text("OK"),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
-    // Create AlertDialog
     AlertDialog alert = AlertDialog(
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(6))),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -438,14 +426,12 @@ class _EditProfileDDState extends State<EditProfileDD> {
               Navigator.pop(context);
               _handleURLButtonPress(context, ImageSourceType.gallery);
             },
-            child: Container(
-              child: ListTile(
-                  title: Text("From Gallery"),
-                  leading: Icon(
-                    Icons.image,
-                    color: Colors.deepPurple,
-                  )),
-            ),
+            child: const ListTile(
+                title: Text("From Gallery"),
+                leading: Icon(
+                  Icons.image,
+                  color: Colors.deepPurple,
+                )),
           ),
           Container(
             width: 200,
@@ -457,23 +443,19 @@ class _EditProfileDDState extends State<EditProfileDD> {
               Navigator.pop(context);
               _handleURLButtonPress(context, ImageSourceType.camera);
             },
-            child: Container(
-              child: ListTile(
-                  title: Text(
-                    "From Camera",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  leading: Icon(
-                    Icons.camera,
-                    color: Colors.red,
-                  )),
-            ),
+            child: const ListTile(
+                title: Text(
+                  "From Camera",
+                  style: TextStyle(color: Colors.red),
+                ),
+                leading: Icon(
+                  Icons.camera,
+                  color: Colors.red,
+                )),
           ),
         ],
       ),
     );
-
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -484,13 +466,13 @@ class _EditProfileDDState extends State<EditProfileDD> {
 
   static Future<String> addProfile(ModelProfile? model) async {
     print('${model?.address}');
-    var APIURL = 'https://cabeloclinic.com/website/medlife/php_auth_api/update_patient_profile_api.php';
+    var APIURL = '${API_BASE_URL}update_patient_profile_api.php';
     http.Response response = await http
         .post(Uri.parse(APIURL), body: model?.toJson())
         .then((value) => value)
         .catchError((error) => print("doctore Failed to addProfile: $error"));
     var data = jsonDecode(response.body);
-    print("addProfile DATA: ${data}");
+    print("addProfile DATA: $data");
     return data[0]['patient_name'];
   }
 
@@ -506,16 +488,18 @@ class _EditProfileDDState extends State<EditProfileDD> {
           isEditted = true;
         });
       }
-      String assistant_name = await addProfile(ModelProfile(
+      String assistantName = await addProfile(ModelProfile(
         patient_id: widget.id,
         patient_name: _controllerName.text.toString(),
         address: _controllerAddress.text.toString(),
         state: stateInitial,
         city: _controllerCity.text.toString(),
         district: _controllerDistrict.text.toString(),
-        pincode: _controllerPincode.text.toString(),
+        pincode: _controllerPinCode.text.toString(),
       ));
-      if (assistant_name == _controllerName.text) {
+      if (assistantName == _controllerName.text) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setString('userName', _controllerName.text);
         if (mounted) {
           setState(() {
             updateProfile=false;
@@ -530,7 +514,8 @@ class _EditProfileDDState extends State<EditProfileDD> {
             isEditted = false;
           });
         }
-        Navigator.pop(context);
+        if (!mounted) return;
+        Navigator.of(context).pop();
       } else {
         updateProfile=false;
         CustomSnackBar.snackBar(
@@ -544,7 +529,7 @@ class _EditProfileDDState extends State<EditProfileDD> {
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
       border: Border.all(width: 1.0, color: Colors.black26),
-      borderRadius: BorderRadius.all(
+      borderRadius: const BorderRadius.all(
           Radius.circular(5.0) //                 <--- border radius here
           ),
     );

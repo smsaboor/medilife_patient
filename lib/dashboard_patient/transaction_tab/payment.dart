@@ -11,10 +11,8 @@ class RazorPay extends StatefulWidget {
 }
 
 class _RazorPayState extends State<RazorPay> {
-  static const platform = const MethodChannel("razorpay_flutter");
+  static const platform = MethodChannel("razorpay_flutter");
   late Razorpay _razorpay;
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -1,13 +1,15 @@
 import 'package:circle_bottom_navigation_bar/circle_bottom_navigation_bar.dart';
 import 'package:circle_bottom_navigation_bar/widgets/tab_data.dart';
-import 'package:medilife_patient/dashboard_patient/tabs/tab_home/patient_home_tab.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_package1/bottom_nav/bottom_nav_cubit.dart';
+import 'package:medilife_patient/dashboard_patient/tabs/tab_hom/patient_home_tab.dart';
 import 'package:medilife_patient/dashboard_patient/upcomming_appointments.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:medilife_patient/dashboard_patient/transaction_tab/transaction.dart';
 import 'package:medilife_patient/dashboard_patient/more_tab/more_tab.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_package1/bottom_nav/nav_bar_items.dart';
 
 class PatientDashboard extends StatefulWidget {
   @override
@@ -76,30 +78,55 @@ class _PatientDashboardState extends State<PatientDashboard>
 
     return Scaffold(
       body: data == null
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
-          : getBody(data, currentPage, data),
-      bottomNavigationBar: CircleBottomNavigationBar(
-        initialSelection: currentPage,
-        barHeight: viewPadding.bottom > 0 ? barHeightWithNotch : barHeight,
-        arcHeight: viewPadding.bottom > 0 ? arcHeightWithNotch : barHeight,
-        itemTextOff: viewPadding.bottom > 0 ? 0 : 1,
-        itemTextOn: viewPadding.bottom > 0 ? 0 : 1,
-        circleOutline: 15.0,
-        shadowAllowance: 0.0,
-        circleSize: 50.0,
-        blurShadowRadius: 50.0,
-        circleColor: Colors.blue,
-        activeIconColor: Colors.white,
-        inactiveIconColor: Colors.grey,
-        tabs: getTabsData(),
-        onTabChangedListener: (index){
-          if (mounted) {
-            setState(() {
-              currentPage = index;
-            });
-          }
+          : BlocBuilder<NavigationCubit, NavigationState>(
+          builder: (context, state) {
+            if (state.navbarItem == NavbarItem.index1) {
+              return TabHomePatient(userData: data);
+            } else if (state.navbarItem == NavbarItem.index2) {
+              return UpcomingApointments(userData: data);
+            } else if (state.navbarItem == NavbarItem.index3) {
+              return TransactionTabPD(userData: data, doctor_id: data['user_id']);
+            }
+            else if (state.navbarItem == NavbarItem.index4) {
+              return MoreTabPD(userData: data, userID: data['user_id']);
+            }
+            return Container();
+          }),
+      bottomNavigationBar: BlocBuilder<NavigationCubit, NavigationState>(
+        builder: (context, state) {
+          return CircleBottomNavigationBar(
+            initialSelection: currentPage,
+            barHeight: viewPadding.bottom > 0 ? barHeightWithNotch : barHeight,
+            arcHeight: viewPadding.bottom > 0 ? arcHeightWithNotch : barHeight,
+            itemTextOff: viewPadding.bottom > 0 ? 0 : 1,
+            itemTextOn: viewPadding.bottom > 0 ? 0 : 1,
+            circleOutline: 15.0,
+            shadowAllowance: 0.0,
+            circleSize: 50.0,
+            blurShadowRadius: 50.0,
+            circleColor: Colors.blue,
+            activeIconColor: Colors.white,
+            inactiveIconColor: Colors.grey,
+            tabs: getTabsData(),
+            onTabChangedListener: (index) {
+              if (index == 0) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItem.index1);
+              } else if (index == 1) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItem.index2);
+              } else if (index == 2) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItem.index3);
+              } else if (index == 3) {
+                BlocProvider.of<NavigationCubit>(context)
+                    .getNavBarItem(NavbarItem.index4);
+              }
+            },
+          );
         }
       ),
     );
@@ -156,15 +183,13 @@ List<TabData> getTabsData() {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: const Center(
-          child: Text(
-            'Home',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'Home',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -175,15 +200,13 @@ class Home extends StatelessWidget {
 class History extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: const Center(
-          child: Text(
-            'Appointment',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'Appointment',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -194,15 +217,13 @@ class History extends StatelessWidget {
 class Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: const Center(
-          child: Text(
-            'Earning',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'Earning',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -213,15 +234,13 @@ class Search extends StatelessWidget {
 class Alarm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: const Center(
-          child: Text(
-            'Profile ',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-            ),
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'Profile ',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

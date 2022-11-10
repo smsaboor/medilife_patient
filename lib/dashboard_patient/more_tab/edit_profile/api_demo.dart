@@ -55,13 +55,13 @@ class MyHomePage extends StatelessWidget {
   final String? title;
   final Future<List<Product>>? products;
 
-  MyHomePage({Key? key, this.title, this.products}) : super(key: key);
+  const MyHomePage({Key? key, this.title, this.products}) : super(key: key);
 
   // final items = Product.getProducts();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Product Navigation")),
+        appBar: AppBar(title: const Text("Product Navigation")),
         body: Center(
           child: FutureBuilder<List<Product>>(
             future: products,
@@ -71,7 +71,7 @@ class MyHomePage extends StatelessWidget {
                   ? ProductBoxList(items: snapshot.data!)
 
                   // return the ListView widget :
-                  : Center(child: CircularProgressIndicator());
+                  : const Center(child: CircularProgressIndicator());
             },
           ),
         ));
@@ -80,7 +80,7 @@ class MyHomePage extends StatelessWidget {
 
 class ProductBoxList extends StatelessWidget {
   final List<Product>? items;
-  ProductBoxList({Key? key, this.items});
+  const ProductBoxList({super.key, this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -104,33 +104,33 @@ class ProductBoxList extends StatelessWidget {
 }
 
 class ProductPage extends StatelessWidget {
-  ProductPage({Key? key, this.item}) : super(key: key);
+  const ProductPage({Key? key, this.item}) : super(key: key);
   final Product? item;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.item!.name),
+        title: Text(item!.name),
       ),
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Image.asset("assets/appimages/" + this.item!.image),
+                Image.asset("assets/appimages/${item!.image}"),
                 Expanded(
                     child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text(this.item!.name,
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(this.item!.description),
-                            Text("Price: " + this.item!.price.toString()),
+                            Text(item!.name,
+                                style: const TextStyle(fontWeight: FontWeight.bold)),
+                            Text(item!.description),
+                            Text("Price: ${item!.price}"),
                             RatingBox(),
                           ],
                         )))
@@ -167,8 +167,9 @@ class _RatingBoxState extends State<RatingBox> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
-    double _size = 20;
+    double size = 20;
     print(_rating);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -176,54 +177,54 @@ class _RatingBoxState extends State<RatingBox> {
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: IconButton(
             icon: (_rating >= 1
                 ? Icon(
                     Icons.star,
-                    size: _size,
+                    size: size,
                   )
                 : Icon(
                     Icons.star_border,
-                    size: _size,
+                    size: size,
                   )),
             color: Colors.red[500],
             onPressed: _setRatingAsOne,
-            iconSize: _size,
+            iconSize: size,
           ),
         ),
         Container(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: IconButton(
             icon: (_rating >= 2
                 ? Icon(
                     Icons.star,
-                    size: _size,
+                    size: size,
                   )
                 : Icon(
                     Icons.star_border,
-                    size: _size,
+                    size: size,
                   )),
             color: Colors.red[500],
             onPressed: _setRatingAsTwo,
-            iconSize: _size,
+            iconSize: size,
           ),
         ),
         Container(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           child: IconButton(
             icon: (_rating >= 3
                 ? Icon(
                     Icons.star,
-                    size: _size,
+                    size: size,
                   )
                 : Icon(
                     Icons.star_border,
-                    size: _size,
+                    size: size,
                   )),
             color: Colors.red[500],
             onPressed: _setRatingAsThree,
-            iconSize: _size,
+            iconSize: size,
           ),
         ),
       ],
@@ -232,28 +233,29 @@ class _RatingBoxState extends State<RatingBox> {
 }
 
 class ProductBox extends StatelessWidget {
-  ProductBox({Key? key, this.item}) : super(key: key);
+  const ProductBox({Key? key, this.item}) : super(key: key);
   final Product? item;
 
+  @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(2),
+        padding: const EdgeInsets.all(2),
         height: 140,
         child: Card(
           child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Image.asset("assets/appimages/" + this.item!.image),
+                Image.asset("assets/appimages/${item!.image}"),
                 Expanded(
                     child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text(this.item!.name,
+                            Text(item!.name,
                                 style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(this.item!.description),
-                            Text("Price: " + this.item!.price.toString()),
+                            Text(item!.description),
+                            Text("Price: ${item!.price}"),
                             RatingBox(),
                           ],
                         )))

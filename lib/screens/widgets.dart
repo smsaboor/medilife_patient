@@ -25,8 +25,8 @@ class GlobalAppBar extends StatelessWidget with PreferredSizeWidget {
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment(-1.0, 0.0),
-            end: Alignment(1.0, 0.0),
+            begin: const Alignment(-1.0, 0.0),
+            end: const Alignment(1.0, 0.0),
             colors: [
               Theme.of(context).primaryColorLight,
               Theme.of(context).primaryColorDark,
@@ -40,10 +40,12 @@ class GlobalAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class StandardAppBar extends StatelessWidget with PreferredSizeWidget {
+  const StandardAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -51,8 +53,8 @@ class StandardAppBar extends StatelessWidget with PreferredSizeWidget {
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment(-1.0, 0.0),
-            end: Alignment(1.0, 0.0),
+            begin: const Alignment(-1.0, 0.0),
+            end: const Alignment(1.0, 0.0),
             colors: [
               Theme.of(context).primaryColorLight,
               Theme.of(context).primaryColorDark,
@@ -66,10 +68,12 @@ class StandardAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class GlobalDrawer extends StatefulWidget {
+  const GlobalDrawer({super.key});
+
   @override
   _GlobalDrawerState createState() => _GlobalDrawerState();
 }
@@ -81,32 +85,6 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
 
   getSpecialties() async {
   }
-
-  // Widget specialtyList() {
-  //   return specialtySnapshot != null
-  //       ? MediaQuery.removePadding(
-  //           context: context,
-  //           removeTop: true,
-  //           child: Padding(
-  //             padding: EdgeInsets.symmetric(horizontal: 15.0),
-  //             child: ListView.builder(
-  //               itemCount: specialtySnapshot.docs.length,
-  //               shrinkWrap: true,
-  //               itemBuilder: (context, index) {
-  //                 return specialtyDrawerItem(
-  //                   specialtyName:
-  //                       specialtySnapshot.docs[index].data()["specialtyName"],
-  //                   specialtyDoctorCount: specialtySnapshot.docs[index]
-  //                       .data()["specialtyDoctorCount"],
-  //                   specialtyImagePath: specialtySnapshot.docs[index]
-  //                       .data()["specialtyImagePath"],
-  //                 );
-  //               },
-  //             ),
-  //           ),
-  //         )
-  //       : Text("error");
-  // }
 
   Widget specialtyDrawerItem(
       {String? specialtyName,
@@ -162,8 +140,8 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             height: 170.0,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment(-1.0, 0.0),
-                end: Alignment(1.0, 0.0),
+                begin: const Alignment(-1.0, 0.0),
+                end: const Alignment(1.0, 0.0),
                 colors: [
                   Theme.of(context).primaryColorLight,
                   Theme.of(context).primaryColorDark,
@@ -173,13 +151,13 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             child: DrawerHeader(
               child: Row(
                 children: [
-                  new Container(
-                    margin: EdgeInsets.only(
+                  Container(
+                    margin: const EdgeInsets.only(
                       right: 15.0,
                     ),
                     width: 50.0,
                     height: 50.0,
-                    decoration: new BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                     ),
                     child: ClipOval(
@@ -196,7 +174,7 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
                                 ),
                               ),
                               placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
+                                  const CircularProgressIndicator(),
                               errorWidget: (context, url, error) =>
                                   Image.asset('assets/images/user.jpg'),
                             )
@@ -212,14 +190,14 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
                           alignment: FractionalOffset.centerLeft,
                           child: UserProfile != null
                               ? Text(
-                                  'Welcome back, ' + UserProfile.urlImage,
-                                  style: TextStyle(
+                                  'Welcome back, ${UserProfile.urlImage}',
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                     color: Color(0xFFFFFFFF),
                                   ),
                                 )
-                              : Text(
+                              : const Text(
                                   'Welcome back, null',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -228,13 +206,13 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
                                   ),
                                 ),
                         ),
-                        Align(
+                        const Align(
                           alignment: FractionalOffset.centerLeft,
                           child: Text(
                             'How can we help you today?',
                             style: TextStyle(
                               fontSize: 15,
-                              color: Color(0xAAFFFFFFF),
+                              color: Color(0xaafffffff),
                             ),
                           ),
                         ),
@@ -246,8 +224,8 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
             onTap: () {
               Navigator.pushReplacement(
                 context,
@@ -256,14 +234,14 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.favorite_border),
-            title: Text('My Health'),
+            leading: const Icon(Icons.favorite_border),
+            title: const Text('My Health'),
             onTap: () {
             },
           ),
           ListTile(
-            leading: Icon(Icons.star),
-            title: Text('Top Doctors'),
+            leading: const Icon(Icons.star),
+            title: const Text('Top Doctors'),
             onTap: () {
               Navigator.push(
                 context,
@@ -272,8 +250,8 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.people),
-            title: Text('All Doctors'),
+            leading: const Icon(Icons.people),
+            title: const Text('All Doctors'),
             onTap: () {
               Navigator.push(
                 context,
@@ -281,15 +259,15 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
               );
             },
           ),
-          ExpansionTile(
-            leading: Icon(Icons.mood),
-            title: Text("Browse by Specialty"),
+          const  ExpansionTile(
+            leading:  Icon(Icons.mood),
+            title:  Text("Browse by Specialty"),
             children: <Widget>[
             ],
           ),
           ListTile(
-            leading: Icon(Icons.search),
-            title: Text('Doctor Lookup'),
+            leading: const Icon(Icons.search),
+            title: const Text('Doctor Lookup'),
             onTap: () {
               Navigator.push(
                 context,
@@ -298,13 +276,13 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.web),
-            title: Text('Visit my Website'),
+            leading: const Icon(Icons.web),
+            title: const Text('Visit my Website'),
             onTap: () => launchURL('https://johnuberbacher.com'),
           ),
           ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Logout'),
             onTap: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => Container()));
@@ -362,17 +340,17 @@ class StarRating extends StatelessWidget {
       BuildContext context, int rank, MainAxisAlignment rowAlignment) {
     Icon icon;
     if (rank >= rating) {
-      return icon = new Icon(
+      return icon = Icon(
         Icons.star_border,
         color: Theme.of(context).buttonColor,
       );
     } else if (rank > rating - 1 && rank < rating) {
-      return icon = new Icon(
+      return icon = Icon(
         Icons.star_half,
         color: color ?? Theme.of(context).primaryColor,
       );
     } else {
-      return icon = new Icon(
+      return icon = Icon(
         Icons.star,
         color: color ?? Theme.of(context).primaryColor,
       );
@@ -381,9 +359,9 @@ class StarRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Row(
+    return Row(
       mainAxisAlignment: rowAlignment,
-      children: new List.generate(
+      children: List.generate(
         starCount,
         (rank) => buildStar(context, rank, rowAlignment),
       ),
@@ -414,7 +392,7 @@ Widget myHealthTextField({String? hintText, String? initialValue}) {
       textAlign: TextAlign.end,
       initialValue: initialValue,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: 25,
           vertical: 20,
         ),
@@ -426,12 +404,12 @@ Widget myHealthTextField({String? hintText, String? initialValue}) {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),
         hintText: hintText,
         prefix: Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             right: 15,
           ),
           child: Text(
             hintText!,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -460,10 +438,10 @@ Widget customTextField(context, String hintText, IconData icon) {
   return TextField(
     decoration: InputDecoration(
       hintText: hintText,
-      hintStyle: TextStyle(
+      hintStyle: const TextStyle(
         color: Color(0xFFb1b2c4),
       ),
-      border: new OutlineInputBorder(
+      border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(60),
       ),
@@ -473,17 +451,17 @@ Widget customTextField(context, String hintText, IconData icon) {
       ),
       filled: true,
       fillColor: Colors.black.withOpacity(0.05),
-      contentPadding: EdgeInsets.symmetric(
+      contentPadding: const EdgeInsets.symmetric(
         vertical: 20.0,
         horizontal: 25.0,
       ),
       prefixIcon: Icon(
         icon,
-        color: Color(0xFF6aa6f8),
+        color: const Color(0xFF6aa6f8),
       ),
       //
     ),
-    style: TextStyle(color: Colors.white),
+    style: const TextStyle(color: Colors.white),
   );
 }
 
@@ -497,7 +475,7 @@ Widget myHealthCoverages(String coverageName, IconData coverageIcon) {
           right: 15.0,
           bottom: 15.0,
         ),
-        decoration: new BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(30)),
           color: Color(0xFFe9f0f3),
         ),
@@ -515,7 +493,7 @@ Widget myHealthCoverages(String coverageName, IconData coverageIcon) {
                 ),
                 child: Text(
                   coverageName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13,
                   ),
                 ),
@@ -530,14 +508,12 @@ Widget myHealthCoverages(String coverageName, IconData coverageIcon) {
 
 Widget myHealthScore(double userHealthScore, context) {
   return Container(
-    child: Container(
-      decoration: new BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(30)),
-        color: Color(0xFFe9f0f3),
-      ),
-      child: Center(
-        child: Container()
-      ),
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+      color: Color(0xFFe9f0f3),
+    ),
+    child: Center(
+      child: Container()
     ),
   );
 }
@@ -563,7 +539,7 @@ Widget sectionTitle(context, String title) {
             ),
           ),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.only(
             top: 20,
           ),
@@ -594,97 +570,95 @@ Widget doctorCard(
     ),
     child: Card(
       elevation: 3.0,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       color: Colors.white,
-      child: new InkWell(
-        customBorder: RoundedRectangleBorder(
+      child: InkWell(
+        customBorder: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
         onTap: () {
         },
-        child: Container(
-          child: Align(
-            alignment: FractionalOffset.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      right: 20.0,
-                    ),
-                    child: ClipOval(
-                      child: imagePath != null
-                          ? CachedNetworkImage(
-                              imageUrl: imagePath,
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                width: 70.0,
-                                height: 72.5,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                  ),
+        child: Align(
+          alignment: FractionalOffset.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                    right: 20.0,
+                  ),
+                  child: ClipOval(
+                    child: imagePath != null
+                        ? CachedNetworkImage(
+                            imageUrl: imagePath,
+                            imageBuilder: (context, imageProvider) =>
+                                Container(
+                              width: 70.0,
+                              height: 72.5,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  Image.asset('assets/images/user.jpg'),
-                            )
-                          : (Container()),
-                    ),
+                            ),
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Image.asset('assets/images/user.jpg'),
+                          )
+                        : (Container()),
                   ),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: FractionalOffset.centerLeft,
+                ),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: FractionalOffset.centerLeft,
+                        child: Text(
+                          '${prefix!.capitalize()} ${firstName!.capitalize()} ${lastName!.capitalize()}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Color(0xFF6f6f6f),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: FractionalOffset.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 5.0,
+                          ),
                           child: Text(
-                            '${prefix!.capitalize()} ${firstName!.capitalize()} ${lastName!.capitalize()}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Color(0xFF6f6f6f),
+                            specialty!,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF9f9f9f),
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: FractionalOffset.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: 5.0,
-                            ),
-                            child: Text(
-                              specialty!,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF9f9f9f),
-                              ),
-                            ),
+                      ),
+                      Align(
+                        alignment: FractionalOffset.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            top: 5.0,
+                          ),
+                          child: StarRating(
+                            rating: rank!,
+                            rowAlignment: MainAxisAlignment.start,
                           ),
                         ),
-                        Align(
-                          alignment: FractionalOffset.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              top: 5.0,
-                            ),
-                            child: StarRating(
-                              rating: rank!,
-                              rowAlignment: MainAxisAlignment.start,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -695,6 +669,6 @@ Widget doctorCard(
 
 extension StringExtension on String {
   String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1)}";
+    return "${this[0].toUpperCase()}${substring(1)}";
   }
 }

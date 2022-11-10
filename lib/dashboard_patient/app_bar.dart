@@ -13,13 +13,13 @@ class CustomAppBarPD extends StatefulWidget {
 class _CustomAppBarPDState extends State<CustomAppBarPD> {
   var data;
   bool uplaodImage = true;
+  String? userName;
   void getData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     final user = preferences.getString('userDetails');
+    userName = preferences.getString('userName');
     setState(() {
       data = jsonStringToMap(user!);
-      print('data----------------------------$data');
-      print('data----------------------------${data['user_id']}');
     });
     _getImgeUrl(data['user_id']);
   }
@@ -45,9 +45,7 @@ class _CustomAppBarPDState extends State<CustomAppBarPD> {
 
   void _getImgeUrl(String doctorId) async {
     fetchImageData = await ApiEditProfiles.getImgeUrl(doctorId);
-    print('%%%%%%%%%%%%%%${fetchImageData}');
     if (fetchImageData[0]['image'] !='') {
-      print('%%%%%%%%%%%%%%${fetchImageData}');
       setState(() {
         uplaodImage = false;
       });
@@ -69,8 +67,6 @@ class _CustomAppBarPDState extends State<CustomAppBarPD> {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      // leadingWidth: 8,
-      // leading: Icon(Icons.android),
       leading: widget.isleading
           ? Builder(
               builder: (BuildContext context) {
@@ -100,8 +96,8 @@ class _CustomAppBarPDState extends State<CustomAppBarPD> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                data == null ? '' : '${data['name']} ',
-                style: TextStyle(
+                userName == null ? '' : '$userName ',
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 17.0,
                   fontWeight: FontWeight.w500,
@@ -110,19 +106,19 @@ class _CustomAppBarPDState extends State<CustomAppBarPD> {
             ],
           ),
         ),
-        uplaodImage?Padding(
-          padding: const EdgeInsets.all(8.0),
+        uplaodImage?const Padding(
+          padding: EdgeInsets.all(8.0),
           child: AvatarImagePD(
-            "https://www.kindpng.com/picc/m/198-1985282_doctor-profile-icon-png-transparent-png.png",
+            "https://p.kindpng.com/picc/s/376-3768467_transparent-healthcare-icon-png-patient-info-icon-png.png",
             radius: 35,
             height: 40,
             width: 40,
           ),
         ):fetchImageData[0]['image']==null
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
+            ? const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: AvatarImagePD(
-                  "https://www.kindpng.com/picc/m/198-1985282_doctor-profile-icon-png-transparent-png.png",
+                  "https://p.kindpng.com/picc/s/376-3768467_transparent-healthcare-icon-png-patient-info-icon-png.png",
                   radius: 35,
                   height: 40,
                   width: 40,

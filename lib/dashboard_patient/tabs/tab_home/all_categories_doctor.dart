@@ -1,14 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:medilife_patient/core/constants.dart';
-
 import 'package:medilife_patient/dashboard_patient/doctor/doctor_profile_page.dart';
 import 'package:medilife_patient/dashboard_patient/widgets/popular_doctor.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
-
+import 'package:flutter_package1/loading/loading_card_list.dart';
 class AllCategoriesDoctor extends StatefulWidget {
   const AllCategoriesDoctor(
       {Key? key,
@@ -34,11 +30,9 @@ class _AllCategoriesDoctorState extends State<AllCategoriesDoctor> {
     http.Response response = await http
         .post(Uri.parse(API_BASE_URL + API), body: body)
         .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
+        .catchError((error) => print(error));
     if (response.statusCode == 200) {
       allDoctors = jsonDecode(response.body.toString());
-      print('----1111-----${allDoctors.length}');
-      print('----1111-----${allDoctors}');
       if (mounted) {
         setState(() {
           allDoctorsF = false;
@@ -52,9 +46,6 @@ class _AllCategoriesDoctorState extends State<AllCategoriesDoctor> {
     // TODO: implement initState
     super.initState();
     getAllDoctors();
-    print('----1111-----${widget.userData}');
-    print('----1111-----${widget.title}');
-    print('----1111-----${widget.searchKey}');
   }
 
   @override
@@ -70,17 +61,15 @@ class _AllCategoriesDoctorState extends State<AllCategoriesDoctor> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: Icon(Icons.arrow_back)),
+                  child: const Icon(Icons.arrow_back)),
               title: Text('${widget.title} Specialist'),
               centerTitle: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             allDoctorsF
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
+                ? LoadingCardList()
                 : allDoctors[0]['status']==0?Center(child: Text('No ${widget.title} Specialist Found'),):ListView.builder(
                     shrinkWrap: true,
                     physics: ScrollPhysics(),

@@ -2,7 +2,6 @@ import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
 import 'package:medilife_patient/dashboard_patient/home_patient_dashboard.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,48 +9,47 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class PaymentMode extends StatefulWidget {
-  const PaymentMode({Key? key,
-    required this.memberId,
-    required this.doctorId,
-    required this.patientId,
-    required this.id,
-    required this.fees,
-    required this.bookingType,
-    required this.name})
+  const PaymentMode(
+      {Key? key,
+      required this.memberId,
+      required this.doctorId,
+      required this.patientId,
+      required this.id,
+      required this.fees,
+      required this.bookingType,
+      required this.name})
       : super(key: key);
   final memberId;
   final doctorId;
   final patientId;
   final id, fees, name, bookingType;
+
   @override
   State<PaymentMode> createState() => _PaymentModeState();
 }
 
 class _PaymentModeState extends State<PaymentMode> {
-  static const platform = const MethodChannel("razorpay_flutter");
+  static const platform = MethodChannel("razorpay_flutter");
   late Razorpay _razorpay;
   String? OrderId;
   var dataAddAppointment;
   int? amount;
   var dataOredr;
-  bool dataAddDosesF=false;
+  bool dataAddDosesF = false;
+
   Future<String> generateOrderId(int amount) async {
-    print('generateOrderId called');
-    print('object-----------------------$amount');
-    print('object-----------------------${amount.runtimeType}');
-    var authn = 'Basic ' +
-        base64Encode(utf8.encode('$API_RAZORPAY_KEY:$API_RAZORPAY_SECRETKEY'));
+    print('generateOrderId------------${amount} ---${widget.id}');
+    var authn = 'Basic ${base64Encode(utf8.encode('$API_RAZORPAY_KEY:$API_RAZORPAY_SECRETKEY'))}';
     var headers = {
       'content-type': 'application/json',
       'Authorization': authn,
     };
-    var data =
-        '{ "amount": ${amount},"currency": "INR", "receipt": "${widget
-        .id}", "payment_capture": 1 }'; // as per my experience the receipt doesn't play any role in helping you generate a certain pattern in your Order ID!!
+    var data = '{ "amount": $amount,"currency": "INR", "receipt": "${widget.id}", "payment_capture": 1 }'; // as per my experience the receipt doesn't play any role in helping you generate a certain pattern in your Order ID!!
     var res = await http.post(Uri.parse(API_RAZORPAY_GENERATE_ID),
         headers: headers, body: data);
-    if (res.statusCode != 200)
-      throw Exception('http.post error: statusCode= ${res}');
+    if (res.statusCode != 200) {
+      throw Exception('http.post error: statusCode= $res');
+    }
     print('ORDER ID response => ${res.body}');
     OrderId = json.decode(res.body)['id'].toString();
     // generateOrders(key,secret,json.decode(res.body)['id'].toString());
@@ -60,18 +58,19 @@ class _PaymentModeState extends State<PaymentMode> {
 
   Future<String> searchOrder(String orderId) async {
     print('generateOrders called');
-    var authn = 'Basic ' +
-        base64Encode(utf8.encode('$API_RAZORPAY_KEY:$API_RAZORPAY_SECRETKEY'));
+    var authn = 'Basic ${base64Encode(utf8.encode('$API_RAZORPAY_KEY:$API_RAZORPAY_SECRETKEY'))}';
     var headers = {
       'content-type': 'application/json',
       'Authorization': authn,
     };
     String ID = orderId;
-    var data = '{"order_id": $orderId}'; // as per my experience the receipt doesn't play any role in helping you generate a certain pattern in your Order ID!!
+    var data =
+        '{"order_id": $orderId}'; // as per my experience the receipt doesn't play any role in helping you generate a certain pattern in your Order ID!!
     var res = await http.get(Uri.parse(API_RAZORPAY_GET_ORDER_DETAIL + ID),
         headers: headers);
-    if (res.statusCode != 200)
+    if (res.statusCode != 200) {
       throw Exception('http.post error: statusCode= ${res}');
+    }
     print('generateOrders => ${res.body}');
     OrderId = json.decode(res.body)['id'].toString();
     dataOredr = json.decode(res.body);
@@ -82,9 +81,7 @@ class _PaymentModeState extends State<PaymentMode> {
   void initState() {
     super.initState();
     amount = int.parse('${widget.fees}');
-    print('PaymentMode---------------------${widget.id} ${widget.fees}');
     _razorpay = Razorpay();
-    // generateOrderId('rzp_test_tGshPQrADIRXhp','TIhrEDLyPnCkAv1CS6tpJoOD',1);
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
@@ -98,6 +95,7 @@ class _PaymentModeState extends State<PaymentMode> {
   }
 
   void openCheckout() async {
+    print('openCheckout-----------OrderId-${OrderId}');
     var options = {
       'key': 'rzp_live_5rUUxqQ4TfrgaX',
       'amount': amount,
@@ -116,9 +114,7 @@ class _PaymentModeState extends State<PaymentMode> {
       }
     };
     try {
-      print('openCheckout1---------------------${options}');
       _razorpay.open(options);
-      print('openCheckout2---------------------${options}');
     } catch (e) {
       debugPrint('openCheckouterror: $e');
     }
@@ -133,32 +129,18 @@ class _PaymentModeState extends State<PaymentMode> {
     debugPrint('Success toString: ${response.toString()}');
     await searchOrder(response.orderId!);
     addPayment();
-    // Fluttertoast.showToast(
-    //     msg: "SUCCESS: " + response.paymentId!,
-    //     toastLength: Toast.LENGTH_SHORT);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print('Error Response: $response');
     print('Error Response: ${response.code}');
     print('Error Response: ${response.message}');
-    Fluttertoast.showToast(
-        msg: "OOPS ! " + 'Payment Process is Cancelled.');
+    Fluttertoast.showToast(msg: "OOPS ! " + 'Payment Process is Cancelled.');
     Navigator.pop(context);
-    // Navigator.pushAndRemoveUntil(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (BuildContext context) => PatientDashboard(),
-    //   ),
-    //       (route) => false,
-    // );
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     print('External SDK Response: $response');
-    /* Fluttertoast.showToast(
-        msg: "EXTERNAL_WALLET: " + response.walletName!,
-        toastLength: Toast.LENGTH_SHORT); */
   }
 
   coollert(String? payId) {
@@ -168,27 +150,27 @@ class _PaymentModeState extends State<PaymentMode> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
+            const Center(
                 child: Text(
-                  'Booking Sheduled !',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black),
-                )),
-            SizedBox(
+              'Booking Scheduled !',
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black),
+            )),
+            const SizedBox(
               height: 8,
             ),
             Center(
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Transaction Id : ',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                   ),
                   Text(
                     payId ?? '',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w300,
                         color: Colors.red),
@@ -196,32 +178,29 @@ class _PaymentModeState extends State<PaymentMode> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Center(
               child: Row(
                 children: [
-                  Text(
+                  const Text(
                     'Appointment No : ',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                   ),
                   Text(
                     widget.id,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
                   ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 3,
-            ),
-            SizedBox(
-              height: 3,
+            const SizedBox(
+              height: 6,
             ),
             Center(
               child: Row(
-                children: [
+                children: const [
                   Text(
                     'Our Estimate Time: ',
                     style: TextStyle(
@@ -240,14 +219,14 @@ class _PaymentModeState extends State<PaymentMode> {
         ),
         context: context,
         type: CoolAlertType.success,
-        autoCloseDuration: Duration(seconds: 600),
+        autoCloseDuration: const Duration(seconds: 600),
         onConfirmBtnTap: () {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (BuildContext context) => PatientDashboard(),
             ),
-                (route) => false,
+            (route) => false,
           );
         });
   }
@@ -259,31 +238,37 @@ class _PaymentModeState extends State<PaymentMode> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(body: Container(
-      child: Center(
+    return Scaffold(
+      body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
                 height: 40,
                 width: 40,
-                child: CircularProgressIndicator(color: Colors.red,)),
-            SizedBox(height: 10,),
-            Center(child: Column(
-              children: [
-                Text('         Please wait ...'),
-                SizedBox(height: 5,),
-                Text('You are redirect to Payment Gateway!'),
-              ],
-            ),)
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                )),
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Column(
+                children: const [
+                  Text('         Please wait ...'),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text('You are redirect to Payment Gateway!'),
+                ],
+              ),
+            )
           ],
         ),
       ),
-    ),);
+    );
   }
-
 
   void addPayment() async {
     print('..addAppointment called');
@@ -292,8 +277,7 @@ class _PaymentModeState extends State<PaymentMode> {
         dataAddDosesF = true;
       });
     }
-    var API = 'https://cabeloclinic.com/website/medlife/php_auth_api/razorpay_transaction_api.php';
-
+    var API = '${API_BASE_URL}razorpay_transaction_api.php';
     Map<String, dynamic> body = {
       'patient_id': widget.patientId.toString(),
       'doctor_id': widget.doctorId['id'].toString(),
@@ -309,22 +293,16 @@ class _PaymentModeState extends State<PaymentMode> {
       'notes': dataOredr['notes'].toString(),
       'created_at': dataOredr['created_at'].toString(),
     };
-    print('-----------------333333333333333333333${body}');
     http.Response response = await http
         .post(Uri.parse(API), body: body)
         .then((value) => value)
         .catchError((error) => print(" Failed to addDoses: $error"));
     if (response.statusCode == 200) {
-      print('..responseaddAppointment 22222222222222222222222222222222');
       if (mounted) {
         setState(() {
-          // dataAddDosesF = false;
         });
       }
-      print('..addAppointment 22222222222222222222222222222222....${response
-          .body}');
-      print('..addAppointment 22222222222222222222222222222222....${response
-          .body}');
+
       dataAddAppointment = jsonDecode(response.body.toString());
       if (dataAddAppointment[0]['status'] == '1') {
         if (mounted) {
@@ -334,7 +312,8 @@ class _PaymentModeState extends State<PaymentMode> {
       } else {
         Fluttertoast.showToast(
             msg: "OOPS ! " + 'Payment Process is Cancelled.');
-        Navigator.pop(context);
+        if (!mounted) return;
+        Navigator.of(context).pop();
       }
     } else {}
   }

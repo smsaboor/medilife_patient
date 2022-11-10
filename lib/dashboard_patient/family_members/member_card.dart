@@ -1,10 +1,7 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
-import 'package:medilife_patient/dashboard_patient/widgets/avatar_image.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -54,7 +51,7 @@ class _MemberCardState extends State<MemberCard> {
             color: Colors.green);
       } else {
         CustomSnackBar.snackBar(
-            context: context, data: 'oops somthing wrong !', color: Colors.red);
+            context: context, data: 'oops something wrong !', color: Colors.red);
       }
     } else {}
   }
@@ -94,7 +91,8 @@ class _MemberCardState extends State<MemberCard> {
             data: 'Lab Test Booking Fail !',
             color: Colors.red);
       }
-      Navigator.pop(context);
+      if (!mounted) return;
+      Navigator.of(context).pop();
     } else {}
   }
 
@@ -109,8 +107,8 @@ class _MemberCardState extends State<MemberCard> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18.0),
       child: Container(
-          margin: EdgeInsets.only(right: 15),
-          padding: EdgeInsets.only(left: 5, top: 15),
+          margin: const EdgeInsets.only(right: 15),
+          padding: const EdgeInsets.only(left: 5, top: 15),
           width: MediaQuery
               .of(context)
               .size
@@ -130,13 +128,11 @@ class _MemberCardState extends State<MemberCard> {
           ),
           child: Column(
             children: [
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
              Text('Name: ${widget.test['name']}'),
               Text('Relation: ${widget.test['relation']}'),
               Text('Age: ${widget.test['age']}'),
               Text('Gender: ${widget.test['gender']}'),
-
-
             ],
           )),
     );

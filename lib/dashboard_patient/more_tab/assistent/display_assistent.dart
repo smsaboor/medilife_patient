@@ -1,8 +1,7 @@
 import 'dart:convert';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:medilife_patient/core/constants.dart';
-import 'package:medilife_patient/core/custom_snackbar.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 import 'package:medilife_patient/dashboard_patient/widgets/avatar_image.dart';
 import 'package:medilife_patient/dashboard_patient/custom_widgtes/app_bar.dart';
 import 'package:medilife_patient/dashboard_patient/more_tab/assistent/add_assistent.dart';
@@ -42,7 +41,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
     } else {}
   }
 
-  Future<String> deleteAssitent(String id) async {
+  Future<String> deleteAssistant(String id) async {
     var data;
     var API = API_BASE_URL + API_DD_ASSISTENT_DELETE;
     Map<String, dynamic> body = {'assistant_id': id};
@@ -70,7 +69,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: CustomAppBar(
           isleading: false,
@@ -81,22 +80,22 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
           children: [
             AppBar(
               backgroundColor: Colors.blue,
-              title: Text("All Assistents"),
+              title: const Text("All Assistants"),
             ),
             dataHomeFlag
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : FutureBuilder(
                     future: getAllAssitents(),
                     builder: (context, snapshot) {
                       return dataAssistence[0]['status'] == 0
-                          ? Center(
+                          ? const Center(
                               child: Text('No Data Found!'),
                             )
                           : ListView.builder(
                               shrinkWrap: true,
-                              physics: ScrollPhysics(),
+                              physics: const ScrollPhysics(),
                               itemCount: dataAssistence.length,
                               itemBuilder: (context, index) {
                                 return Padding(
@@ -108,7 +107,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                     child: Card(
                                       elevation: 10,
                                       color: Colors.white,
-                                      shape: RoundedRectangleBorder(
+                                      shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(10)),
                                         side: BorderSide(color: Colors.white),
@@ -132,7 +131,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                       dataAssistence[index]
                                                           ['image']),
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 20,
                                                 ),
                                                 Column(
@@ -140,12 +139,12 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 3,
                                                       ),
                                                       Row(
                                                         children: [
-                                                          Text(
+                                                          const Text(
                                                             'Name:  ',
                                                             style: TextStyle(
                                                                 fontSize: 18,
@@ -164,7 +163,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 18,
                                                                 fontWeight:
                                                                     FontWeight
@@ -172,7 +171,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 8,
                                                       ),
                                                       Row(
@@ -182,7 +181,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              Text(
+                                                              const Text(
                                                                 'Mobile:  ',
                                                                 style: TextStyle(
                                                                     color: Colors
@@ -199,7 +198,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                                         [
                                                                         'number'] ??
                                                                     '',
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                     fontSize:
                                                                         18,
                                                                     fontWeight:
@@ -210,12 +209,12 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 8,
                                                       ),
                                                       Row(
                                                         children: [
-                                                          Text(
+                                                          const Text(
                                                             'Status:  ',
                                                             style: TextStyle(
                                                                 color:
@@ -230,7 +229,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                                         index][
                                                                     'status_order'] ??
                                                                 '',
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 18,
                                                                 color: Colors
                                                                     .green,
@@ -240,12 +239,12 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 8,
                                                       ),
                                                       Row(
                                                         children: [
-                                                          Text(
+                                                          const Text(
                                                             'Address:',
                                                             style: TextStyle(
                                                                 color:
@@ -260,7 +259,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                                         index][
                                                                     'address'] ??
                                                                 '',
-                                                            style: TextStyle(
+                                                            style: const TextStyle(
                                                                 fontSize: 18,
                                                                 fontWeight:
                                                                     FontWeight
@@ -289,7 +288,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                                     index][
                                                                 'assistant_id']);
                                                       },
-                                                      child: Text(
+                                                      child: const Text(
                                                         'Delete',
                                                         style: TextStyle(
                                                             fontSize: 20,
@@ -297,7 +296,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                                 FontWeight
                                                                     .w500),
                                                       )),
-                                                  Spacer(),
+                                                  const Spacer(),
                                                   InkWell(
                                                       onTap: () {
                                                         Navigator.of(context).push(
@@ -308,7 +307,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                                     data: dataAssistence[
                                                                         index])));
                                                       },
-                                                      child: Text(
+                                                      child: const Text(
                                                         'Edit',
                                                         style: TextStyle(
                                                             fontSize: 20,
@@ -319,7 +318,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                                                 ],
                                               ),
                                             ),
-                                            Divider(
+                                            const Divider(
                                               color: Colors.black12,
                                             ),
                                           ],
@@ -331,7 +330,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                               });
                     },
                   ),
-            SizedBox(
+            const SizedBox(
               height: 200,
             )
           ],
@@ -339,10 +338,6 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
       ),
       floatingActionButton: FloatingActionButton(
         // isExtended: true,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
         backgroundColor: Colors.blue,
         onPressed: () {
           print('${widget.doctorId}');
@@ -352,6 +347,11 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
                     doctor_id: widget.doctorId,
                   )));
         },
+        // isExtended: true,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -376,7 +376,7 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
       dismissOnBackKeyPress: false,
       desc: 'Are You Confirm to delete.',
       btnOkOnPress: () async {
-        String status = await deleteAssitent(id);
+        String status = await deleteAssistant(id);
         if (status == 'ok') {
           CustomSnackBar.snackBar(
               context: context,
@@ -396,25 +396,25 @@ class _DisplayAssistentsState extends State<DisplayAssistents> {
       Container(
         decoration: BoxDecoration(color: oddColour),
         padding:
-            EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5.0, right: 5.0),
+            const EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5.0, right: 5.0),
         child: Column(
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(item, style: TextStyle(fontSize: 16.0)),
-                Text(charge, style: TextStyle(fontSize: 16.0))
+                Text(item, style: const TextStyle(fontSize: 16.0)),
+                Text(charge, style: const TextStyle(fontSize: 16.0))
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(dateString,
-                    style: TextStyle(color: Colors.grey, fontSize: 14.0)),
-                Text(type, style: TextStyle(color: Colors.grey, fontSize: 14.0))
+                    style: const TextStyle(color: Colors.grey, fontSize: 14.0)),
+                Text(type, style: const TextStyle(color: Colors.grey, fontSize: 14.0))
               ],
             ),
           ],

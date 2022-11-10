@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:medilife_patient/core/constants.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class UploadImageScreen extends StatefulWidget {
@@ -19,11 +20,9 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
   Future getImage()async{
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery , imageQuality: 80);
-
     if(pickedFile!= null ){
       image = File(pickedFile.path);
       setState(() {
-
       });
     }else {
       print('no image selected');
@@ -41,29 +40,24 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
 
     var length = await image!.length();
 
-    var uri = Uri.parse('https://cabeloclinic.com/website/medlife/php_auth_api/update_image_api.php');
+    var uri = Uri.parse('${API_BASE_URL}update_image_api.php');
 
-    var request = new http.MultipartRequest('POST', uri);
+    var request =  http.MultipartRequest('POST', uri);
 
     request.fields['doctor_id'] = "7" ;
 
-    var multiport = new http.MultipartFile(
+    var multiport = http.MultipartFile(
         'image',
         stream,
         length);
 
     request.files.add(multiport);
-
     var response = await request.send() ;
-
-    print(response.stream.toString());
     if(response.statusCode == 200){
       setState(() {
         showSpinner = false ;
       });
-      print('image uploaded ${response.stream}');
     }else {
-      print('failed');
       setState(() {
         showSpinner = false ;
       });
@@ -78,7 +72,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
       inAsyncCall: showSpinner,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Upload Image'),
+          title: const Text('Upload Image'),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -89,21 +83,19 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 getImage();
               },
               child: Container(
-                child: image == null ? Center(child: Text('Pick Image'),)
+                child: image == null ? const Center(child: Text('Pick Image'),)
                     :
-                Container(
-                  child: Center(
-                    child: Image.file(
-                      File(image!.path).absolute,
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
+                Center(
+                  child: Image.file(
+                    File(image!.path).absolute,
+                    height: 100,
+                    width: 100,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 150,),
+            const SizedBox(height: 150,),
             GestureDetector(
               onTap: (){
                 uploadImage();
@@ -112,7 +104,7 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                 height: 50,
                 width: 200,
                 color: Colors.green,
-                child: Center(child: Text('Upload')),
+                child: const Center(child: Text('Upload')),
               ),
             )
           ],

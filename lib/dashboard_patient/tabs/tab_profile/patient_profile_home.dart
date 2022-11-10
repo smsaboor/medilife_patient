@@ -120,51 +120,17 @@ class _PatientProfilePDState extends State<PatientProfilePD> {
       ),
     );
 
-    var themeSwitcher = ThemeSwitcher(
-      builder: (context) {
-        return AnimatedCrossFade(
-          duration: Duration(milliseconds: 200),
-          crossFadeState:
-          ThemeModelInheritedNotifier.of(context).theme == Brightness.light
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
-          firstChild: GestureDetector(
-            onTap: () =>
-                ThemeSwitcher.of(context).changeTheme(theme: kLightTheme),
-            child: Icon(
-              LineAwesomeIcons.sun,
-              size: (ScreenUtil().setSp(kSpacingUnit.w * 3)).toDouble(),
-            ),
-          ),
-          secondChild: GestureDetector(
-            onTap: () =>
-                ThemeSwitcher.of(context).changeTheme(theme: kDarkTheme),
-            child: Icon(
-              LineAwesomeIcons.moon,
-              size: (ScreenUtil().setSp(kSpacingUnit.w * 3)).toDouble(),
-            ),
-          ),
-        );
-      },
-    );
-
     var header = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        // SizedBox(width: kSpacingUnit.w * 3),
-        // Icon(
-        //   LineAwesomeIcons.arrow_left,
-        //   size: (ScreenUtil().setSp(kSpacingUnit.w * 3)).toDouble(),
-        // ),
         profileInfo,
-        // themeSwitcher,
         SizedBox(width: kSpacingUnit.w * 3),
       ],
     );
 
     return data==null
-        ? Center(
+        ? const Center(
         child: SizedBox(
           child: CircularProgressIndicator(),
         ))
@@ -179,17 +145,17 @@ class _PatientProfilePDState extends State<PatientProfilePD> {
                   header,
                   SizedBox(height: kSpacingUnit.w * 3),
                   GestureDetector(
-                    child: ProfileListItem(
+                    child: const ProfileListItem(
                       icon: LineAwesomeIcons.user_shield,
                       text: 'Term and Conditions',
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => TermsOfServices()));
+                          builder: (_) => const TermsOfServices()));
                     },
                   ),
                   GestureDetector(
-                    child: ProfileListItem(
+                    child: const ProfileListItem(
                       icon: LineAwesomeIcons.history,
                       text: 'Appointment History',
                     ),
@@ -199,17 +165,17 @@ class _PatientProfilePDState extends State<PatientProfilePD> {
                     },
                   ),
                   GestureDetector(
-                    child: ProfileListItem(
+                    child: const ProfileListItem(
                       icon: Icons.password,
                       text: 'Change Password',
                     ),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) =>ChangePasswordPD()));
+                          builder: (_) =>const ChangePasswordPD()));
                     },
                   ),
                   GestureDetector(
-                    child: ProfileListItem(
+                    child: const ProfileListItem(
                       icon: LineAwesomeIcons.question_circle,
                       text: 'Report Issue',
                     ),
@@ -219,7 +185,7 @@ class _PatientProfilePDState extends State<PatientProfilePD> {
                     },
                   ),
                   GestureDetector(
-                    child: ProfileListItem(
+                    child: const ProfileListItem(
                       icon: LineAwesomeIcons.cog,
                       text: 'Settings',
                     ),
@@ -238,7 +204,7 @@ class _PatientProfilePDState extends State<PatientProfilePD> {
                     },
                   ),
                   GestureDetector(
-                    child: ProfileListItem(
+                    child: const ProfileListItem(
                       icon: LineAwesomeIcons.alternate_sign_out,
                       text: 'Logout',
                       hasNavigation: false,

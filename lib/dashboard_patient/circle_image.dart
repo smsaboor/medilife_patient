@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CircleImage extends StatelessWidget {
-  const CircleImage(this.url, {this.width = 70, this.height = 70, this.bgColor, this.borderWidth = 0, this.radius = 60,this.borderColor});
+  const CircleImage(this.url, {super.key, this.width = 70, this.height = 70, this.bgColor, this.borderWidth = 0, this.radius = 60,this.borderColor});
   final String url;
   final double width;
   final double height;
@@ -24,7 +24,7 @@ class CircleImage extends StatelessWidget {
               color: Colors.grey.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(1, 1), // changes position of shadow
+              offset: const Offset(1, 1), // changes position of shadow
             ),
           ],
           image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),

@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:medilife_patient/core/constants.dart';
 import 'package:medilife_patient/dashboard_patient/family_members/add_new_member.dart';
-import 'package:medilife_patient/dashboard_patient/lab_test/add_lab_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:medilife_patient/dashboard_patient/lab_test/custom_test_display.dart';
 import 'member_card.dart';
 
 class DisplayFamilyMembers extends StatefulWidget {
@@ -70,7 +67,7 @@ class _DisplayFamilyMembersState extends State<DisplayFamilyMembers> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Members'),
+        title: const Text('All Members'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -78,12 +75,12 @@ class _DisplayFamilyMembersState extends State<DisplayFamilyMembers> {
           children: [
             Card(
                 child: Column(children: [
-                  allTestF ? Center(child: Text(''),) : allTest == null
-                      ? Center(child: Text('No Members Found.'),)
+                  allTestF ? const Center(child: Text(''),) : allTest == null
+                      ? const Center(child: Text('No Members Found.'),)
                       : Container(),
                   allTestF
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
+                      ? const Center(child: CircularProgressIndicator())
+                      : SizedBox(
                       height: MediaQuery
                           .of(context)
                           .size
@@ -116,16 +113,17 @@ class _DisplayFamilyMembersState extends State<DisplayFamilyMembers> {
       ),
       floatingActionButton: FloatingActionButton(
         // isExtended: true,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
         backgroundColor: Colors.blue,
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
               builder: (_) => AddMemberPD(patientID: widget.patientId)));
         },
+        // isExtended: true,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

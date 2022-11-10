@@ -18,12 +18,12 @@ class _ShowAllState extends State<ShowAll> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title),centerTitle: true,),
       body: SingleChildScrollView(child: Column(children: [
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         widget.data[0]['status'] == '0'
             ? Center(child: Text('${widget.data[0]['message']}'))
             : ListView.builder(
             shrinkWrap: true,
-            physics: ScrollPhysics(),
+            physics: const ScrollPhysics(),
             itemCount: widget.data.length,
             itemBuilder: (context, index) {
               return GestureDetector(

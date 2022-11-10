@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:medilife_patient/core/constants.dart';
 import 'package:medilife_patient/dashboard_patient/lab_test/add_lab_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:medilife_patient/dashboard_patient/lab_test/custom_test_display.dart';
-
+import 'package:flutter_package1/loading/loading_card_list.dart';
 class DisplayLabTest extends StatefulWidget {
   const DisplayLabTest({Key? key, required this.patientId}) : super(key: key);
   final patientId;
@@ -22,18 +21,17 @@ class _DisplayLabTestState extends State<DisplayLabTest> {
     var API = 'all_booked_lab_test_api.php';
     Map<String, dynamic> body = {'patient_id': widget.patientId};
     http.Response response = await http
-        .post(Uri.parse(API_BASE_URL + API), body: body)
-        .then((value) => value)
-        .catchError((error) => print(" Failed to getLogin: $error"));
+        .post(Uri.parse(API_BASE_URL + API),body: body);
     if (response.statusCode == 200) {
       allTest = jsonDecode(response.body.toString());
-      // print('-222---getAllTest-------------------------------${allTest}');
       if (mounted) {
         setState(() {
-          allTestF = false;
+          allTestF=false;
         });
       }
-    } else {}
+    } else {
+      throw Exception('Failed to lab test');
+    }
   }
 
   Future<String> deleteLabTest(String id) async {
@@ -42,9 +40,7 @@ class _DisplayLabTestState extends State<DisplayLabTest> {
     String API = 'delete_lab_test_api.php';
     Map<String, dynamic> body = {'lab_id': id};
     http.Response response = await http
-        .post(Uri.parse(API_BASE_URL + API), body: body)
-        .then((value) => value)
-        .catchError((error) => print(" Failed to delete: $error"));
+        .post(Uri.parse(API_BASE_URL + API),body: body);
     if (response.statusCode == 200) {
       data = jsonDecode(response.body.toString());
       if (mounted) {
@@ -54,7 +50,7 @@ class _DisplayLabTestState extends State<DisplayLabTest> {
       }
       return data[0]['status'];
     } else {
-      return 'fail';
+      throw Exception('Failed to lab test');
     }
   }
 
@@ -69,20 +65,21 @@ class _DisplayLabTestState extends State<DisplayLabTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Lab Test'),
+        title: const Text('My Lab Test'),
         centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Card(
                 child: Column(children: [
-                  allTestF ? Center(child: Text(''),) : allTest == null
-                      ? Center(child: Text('No Lab Test Booked.'),)
+                  allTestF ? const Center(child: Text(''),) : allTest == null || allTest.length==0
+                      ? const Center(child: Text('No Lab Test Booked.'),)
                       : Container(),
                   allTestF
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
+                      ? LoadingCardList()
+                      : SizedBox(
                       height: MediaQuery
                           .of(context)
                           .size
@@ -94,7 +91,7 @@ class _DisplayLabTestState extends State<DisplayLabTest> {
                             return ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                physics: ScrollPhysics(),
+                                physics: const ScrollPhysics(),
                                 itemCount: allTest.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
@@ -115,16 +112,17 @@ class _DisplayLabTestState extends State<DisplayLabTest> {
       ),
       floatingActionButton: FloatingActionButton(
         // isExtended: true,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
         backgroundColor: Colors.blue,
         onPressed: () {
           Navigator.of(context)
               .push(MaterialPageRoute(
               builder: (_) => AddLabTest(patientId: widget.patientId)));
         },
+        // isExtended: true,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

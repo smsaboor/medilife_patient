@@ -1,9 +1,11 @@
-import 'package:medilife_patient/core/custom_snackbar.dart';
 import 'package:medilife_patient/dashboard_patient/home_patient_dashboard.dart';
 import 'package:medilife_patient/screens/auth/verify_otp.dart';
 import 'package:medilife_patient/service/api.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../forget_password/forget_password.dart';
+import 'package:flutter_package1/navigation.dart';
+import 'package:flutter_package1/custom_snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -12,9 +14,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // getSP()async{
-  //   await SharedPreferences.getInstance();
-  // }
   late FocusNode text1, text2;
 
   @override
@@ -33,9 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
-  TextEditingController _controllerMobile = TextEditingController();
-  TextEditingController _controllerPassword = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController _controllerMobile = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
   bool tryRegistration = false;
   bool isRegistered = false;
   int? status = 0;
@@ -60,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * .13,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 18.0, bottom: 15),
+              const Padding(
+                padding: EdgeInsets.only(left: 18.0, bottom: 15),
                 child: Text(
                   "SignIn / SignUp Patient",
                   style: TextStyle(
@@ -79,14 +78,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     primaryColor: Colors.redAccent,
                     primaryColorDark: Colors.red,
                   ),
-                  child: new TextFormField(
+                  child: TextFormField(
                     textInputAction: TextInputAction.next,
-                    autofocus: true,
                     focusNode: text1,
                     controller: _controllerMobile,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Enter Your Mobile';
+                      }
+                      if (value!.length>10) {
+                        return 'Number Max length 10';
+                      }
+                      if (value!.length<10) {
+                        return 'Number Min length 10';
                       }
                       return null;
                     },
@@ -96,12 +100,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                     keyboardType: TextInputType.number,
-                    decoration: new InputDecoration(
-                        border: new OutlineInputBorder(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
                             borderSide: new BorderSide(color: Colors.teal)),
                         labelText: 'Mobile',
                         prefixText: ' ',
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.phone_android,
                           color: Colors.blue,
                         ),
@@ -114,11 +118,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ? Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Theme(
-                        data: new ThemeData(
+                        data: ThemeData(
                           primaryColor: Colors.redAccent,
                           primaryColorDark: Colors.red,
                         ),
-                        child: new TextFormField(
+                        child: TextFormField(
                           focusNode: text2,
                           textInputAction: TextInputAction.next,
                           controller: _controllerPassword,
@@ -136,10 +140,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             return null;
                           },
                           keyboardType: TextInputType.text,
-                          decoration: new InputDecoration(
-                              border: new OutlineInputBorder(
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(
                                   borderSide:
-                                      new BorderSide(color: Colors.teal)),
+                                      BorderSide(color: Colors.teal)),
                               labelText: 'Password',
                               prefixText: ' ',
                               prefixIcon: Icon(
@@ -147,41 +151,53 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.blue,
                               ),
                               suffixStyle:
-                                  const TextStyle(color: Colors.green)),
+                                  TextStyle(color: Colors.green)),
                         ),
                       ),
                     )
                   : Container(),
+              const SizedBox(
+                height: 10,
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const HomeForgetPassword()));
+                      },
+                      child: const Text('Forget Password')),
+                ),
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .1,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .9,
                 height: 60,
-                child: Container(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _verifyUser(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                        textStyle: TextStyle(
-                            fontSize: 36, fontWeight: FontWeight.bold)),
-                    child: tryRegistration
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                            ),
-                          )
-                        : Text(
-                            isRegistered ? "Login" : "Continue",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 22),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _verifyUser(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      textStyle: const TextStyle(
+                          fontSize: 36, fontWeight: FontWeight.bold)),
+                  child: tryRegistration
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
                           ),
-                  ),
+                        )
+                      : Text(
+                          isRegistered ? "Login" : "Continue",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 22),
+                        ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -190,7 +206,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _verifyUser(BuildContext context) async {
-    // Navigator.of(context).push(MaterialPageRoute(builder: (_) => DoctorDashBoard()));
     if (status == 0) {
       if (formKey.currentState!.validate()) {
         if (mounted) {
@@ -202,7 +217,6 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           tryRegistration = false;
         });
-        print('status check reg------------${data['status']}');
         if (data['status'] == 1) {
           setState(() {
             isRegistered = true;
@@ -214,6 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
               builder: (_) => OtpVerification(
                     otp: data['otp'],
                     mobile: _controllerMobile.text,
+                isForgetPassword: false,
                   )));
         }
       }
@@ -230,25 +245,14 @@ class _LoginScreenState extends State<LoginScreen> {
           SharedPreferences preferences = await SharedPreferences.getInstance();
           preferences.setBool('isLogin', true);
           if (data['user_type'] == '1') {
+            preferences.setString('userName', data['name']);
             preferences.setString('userType', data['user_type']);
             preferences.setString('userDetails', data.toString());
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => PatientDashboard(),
-              ),
-                  (route) => false,
-            );
+            navigateAndFinsh(context, PatientDashboard());
           } else {
             preferences.setString('userDetails', data.toString());
             preferences.setString('userType', data['user_type']);
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => PatientDashboard(),
-              ),
-                  (route) => false,
-            );
+            navigateAndFinsh(context, PatientDashboard());
           }
           if (mounted) {
             setState(() {
@@ -257,7 +261,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         } else {
           CustomSnackBar.snackBar(
-              context: context, data: 'Failed to Login !', color: Colors.red);
+              context: context, data: 'Mobile or Password is Incorrect !', color: Colors.red);
           if (mounted) {
             setState(() {
               tryRegistration = false;
